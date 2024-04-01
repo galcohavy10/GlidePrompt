@@ -5,12 +5,12 @@ const FAQ = () => {
     const [selectedQuestion, setSelectedQuestion] = useState(null);
   
     const questionsAnswers = [
-      { question: "Is it safe to put company data here?", answer: "Our model runs REMOTELY so your files are not uploaded to any servers unless collaborating between teammates. OpanAI's API does NOT train it's language models on your data, but they do store data for limited periods to prevent misue of their API. Refer to the OpenAI official API policy to learn more." },
-      { question: "Will you auto-charge me for the monthly plan after the beta?" , answer: "No, we will not charge you unless you explicitly choose to opt in after experiencing the beta." },
-      { question: "Can I start using GlidePrompt?", answer: "The underlying technology has been demonstrated internally but we're working through making the product cohesive and safe for companies. We project the beta will be available in May, due to higher demand those who reserve a spot are guaranteed better prices and quicker access to the launch." },
-      { question: "How does GlidePrompt work?", answer: "GlidePrompt uses a proprietary semantic compression algorithm to `stuff` existing models with more data. We also give you deep access to speed, context, and personality of your model to suit personal needs." },
+      { question: "Is it safe to put company data here?", answer: "TLDR: yes. The interace all runs through the API (programming interface) of these larger language models. Pro users will have all their data encrypted with us soon, so we're not your concern here. But if you don't trust the actual API from these big companies like Google, or OpenAI then maybe it's not private enough for you. To be honest, most of these companies don't really benefit from training on their API data, as it's extremely risky for their brand and it also is hard to organize such a variety of use cases." },
+      { question: "Will you increase the prices?" , answer: "I will grandfather you in at the same price when we raise them." },
+      { question: "Can I start using GlidePrompt?", answer: "Yes. Sign in with the same email you used to pay and you should be able to start using the tool at studio.glideprompt.com" },
+      { question: "How does GlidePrompt work?", answer: "GlidePrompt uses a host of different concurrent tasks and manages the analytics live to provide you with a faster testing process. If there's any feature request you have or suggestions on how to build something, just text me." },
       { question: "Can I talk prices for large enterprise?", answer: "Click the `Contact` tab to email or text the CEO directly and get a quote, we respond quickly." },
-      { question: "Do you train your models on my questions and usage?", answer: "No." },
+      { question: "Do you train internal models on my questions and usage?", answer: "No. I look at the messages people use on the free version to see how I can improve the product, I always do my best to never steal prompts, jokes or ideas from other people in my life." },
     ];
   
     return (
@@ -34,7 +34,7 @@ const FAQ = () => {
                     <AiOutlineArrowRight className='text-[#00df9a]' />
                   }
                 </div>
-                {index === selectedQuestion && <p className='text-gray-500 mt-2 p-2'>{qa.answer}</p>}
+                {index === selectedQuestion && <p className='text-gray-200 mt-2 p-2'>{qa.answer}</p>}
               </div>
             ))}
           </div>

@@ -1,4 +1,4 @@
-// src/index.js
+// src/backend/index.js
 //sample server
 
 const express = require('express');

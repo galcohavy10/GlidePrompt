@@ -33,7 +33,7 @@ const Roadmap = () => {
 
         {/* Note */}
         <p className='text-center md:text-xl text-lg font-medium text-gray-500'>
-          We're hard at work, building the future.
+          We're hard at work, building the future of AI.
         </p>
       </div>
     </div>

@@ -28,14 +28,14 @@ const Hero = () => {
           </p>
           <ReactTyped
           className='md:text-5xl sm:text-4xl text-xl font-extralight fon md:pl-4 pl-2'
-            strings={['suggests prompt edits.', 'compares model pricing.', 'enables team prompting.']}
+            strings={['suggests prompt edits.', 'compares LLM pricing.', 'compares LLM outputs.']}
             typeSpeed={50}
             backSpeed={30}
             loop
           />
         </div>
         <p className='md:text-2xl text-xl font-bold text-gray-500'>Simplify your workflow.</p>
-        <button className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black' onClick={scrollToBottom}>Try Now</button>
+        <button className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black' onClick={scrollToBottom}>Try Now ↓</button>
       </div>
     </div>
   );

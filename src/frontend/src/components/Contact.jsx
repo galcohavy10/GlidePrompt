@@ -31,7 +31,7 @@ const Contact = () => {
                         Feedback Welcome:
                     </h2>
                     <p className='text-gray-500 mt-2 p-2'>
-                        My email and phone are open for feedback of any sort, I'm commited to the improvement of GlidePrompt.
+                        My email and phone are open for feedback of any sort, I'm commited to the improvement of GlidePrompt. <br></br>Please be nice though, I'm a normal human guy with feelings!
                     </p>
                 </div>
 
