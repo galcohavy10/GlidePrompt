@@ -12,6 +12,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import PrivacyPolicy from './components/Privacy';
 import TOS from './components/TOS';
+import SocialProof from './components/SocialProof';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Analytics />
         <Newsletter />
         <Cards />
+        <SocialProof />
       </>
     )
   }

@@ -36,7 +36,7 @@ const Newsletter = () => {
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
             Want updates on release date?
           </h1>
-          <p>A beta will be available in December with limited spots.</p>
+          <p>A beta will be available in May with limited spots.</p>
         </div>
         <div className='my-4'>
           <div className='flex flex-col sm:flex-row items-center justify-between w-full'>

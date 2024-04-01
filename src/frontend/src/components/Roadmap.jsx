@@ -7,7 +7,7 @@ const Roadmap = () => {
 
         {/* Header */}
         <h1 className='text-center md:text-7xl sm:text-6xl text-4xl font-bold'>
-          Beta in December
+          Beta in May
         </h1>
         
         {/* Subtext */}

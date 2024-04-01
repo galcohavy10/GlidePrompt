@@ -1,0 +1,11 @@
+.tweets-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.tweets {
+  display: inline-flex;
+  gap: 1rem;
+  padding: 1rem;
+}

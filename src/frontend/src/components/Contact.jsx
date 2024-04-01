@@ -13,7 +13,7 @@ const Contact = () => {
                         Founder's Message:
                     </h2>
                     <p className='text-gray-500 mt-2 p-2'>
-                        Hi, I'm Gal Cohavy and I'm the founder of NexaFlow. <br/> My phone number is 310-467-3810 and my email is galswlr@gmail.com. <br/> You may reach me directly there. 
+                        Hi, I'm Gal Cohavy and I'm the founder of GlidePrompt. <br/> My phone number is 310-467-3810 and my email is galswlr@gmail.com. <br/> You may reach me directly there. 
                     </p>
                 </div>
                 
@@ -31,7 +31,7 @@ const Contact = () => {
                         Feedback Welcome:
                     </h2>
                     <p className='text-gray-500 mt-2 p-2'>
-                        My email and phone are open for feedback of any sort, I'm commited to the improvement of NexaFlow.
+                        My email and phone are open for feedback of any sort, I'm commited to the improvement of GlidePrompt.
                     </p>
                 </div>
 

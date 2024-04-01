@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Typed from 'react-typed';
+import {ReactTyped} from 'react-typed';
 
 const Demo = () => {
     const [currentQAIndex, setCurrentQAIndex] = useState(0);
@@ -133,7 +133,7 @@ const Demo = () => {
                 </div>
                 {/* Bot's response with dynamic typing */}
                 <div className='self-start p-4 rounded-3xl rounded-bl-sm bg-gray-200 shadow-md max-w-[90%] w-full break-words overflow-x-hidden'>
-                    <Typed
+                    <ReactTyped
                         key={currentQAIndex}
                         strings={[botAnswers[currentQAIndex]]}
                         typeSpeed={5}
