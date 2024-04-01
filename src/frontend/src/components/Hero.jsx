@@ -19,23 +19,23 @@ const Hero = () => {
         <p className='text-[#00df9a] font-bold p-2'>
           Finally,
         </p>
-        <h1 className='md:text-7xl sm:text-6xl text-4xl font-bold md:py-6'>
-          A Prompt Engineering Toolkit
+        <h1 className='md:text-7xl mt-[-20px] sm:text-6xl text-4xl font-bold md:py-6'>
+          A Prompt-Engineering Toolkit
         </h1>
         <div className='flex justify-center items-center'>
-          <p className='md:text-5xl sm:text-4xl text-xl font-bold py-4'>
+          <p className='md:text-5xl sm:text-4xl text-xl font-extralight py-4'>
             GlidePrompt
           </p>
           <ReactTyped
-          className='md:text-5xl sm:text-4xl text-xl font-bold md:pl-4 pl-2'
-            strings={['helps you edit prompts', 'compares model pricing', 'stores prompt changes']}
-            typeSpeed={100}
-            backSpeed={50}
+          className='md:text-5xl sm:text-4xl text-xl font-extralight fon md:pl-4 pl-2'
+            strings={['suggests prompt edits.', 'compares model pricing.', 'enables team prompting.']}
+            typeSpeed={50}
+            backSpeed={30}
             loop
           />
         </div>
-        <p className='md:text-2xl text-xl font-bold text-gray-500'>We help your agents shine</p>
-        <button className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black' onClick={scrollToBottom}>Learn More</button>
+        <p className='md:text-2xl text-xl font-bold text-gray-500'>Simplify your workflow.</p>
+        <button className='bg-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black' onClick={scrollToBottom}>Try Now</button>
       </div>
     </div>
   );

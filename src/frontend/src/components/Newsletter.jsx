@@ -34,9 +34,9 @@ const Newsletter = () => {
       <div className='max-w-[1240px] mx-auto grid lg:grid-cols-3'>
         <div className='lg:col-span-2 my-4'>
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
-            Want updates on release date?
+            Want to talk directly to the founder?
           </h1>
-          <p>A beta will be available in May with limited spots.</p>
+          <p>Suggest a feature or leave feedback, but be nice!</p>
         </div>
         <div className='my-4'>
           <div className='flex flex-col sm:flex-row items-center justify-between w-full'>
@@ -51,13 +51,13 @@ const Newsletter = () => {
               className='bg-[#00df9a] text-black rounded-md font-medium w-[200px] ml-4 my-6 px-6 py-3'
               onClick={handleSubmit}
             >
-             Notify Me
+             Let's Talk
             </button>
             {feedback === 'success' && <div style={{ padding: '10px', animation: 'fadeInOut 5s' }}>✔️</div>}
             {feedback === 'error' && <div style={{ padding: '10px', animation: 'fadeInOut 5s' }}>❌</div>}
           </div>
           <p>
-            We respect your inbox and will NEVER spam or share your email. 
+            I will not spam or share your email, this is purely to talk to you directly. 
           </p>
 
         </div>
