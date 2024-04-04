@@ -14,7 +14,7 @@ const openai = new OpenAI({
 export async function chatWithMixtral(systemMessage, model, messages) {
   try {
     const completion = await openai.chat.completions.create({
-      model: "zephyr-chat",
+      model: "mixtral-chat",
       messages: [
         { role: "system", content: systemMessage },
         ...messages,
