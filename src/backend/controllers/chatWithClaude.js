@@ -1,8 +1,13 @@
-const fetch = require('node-fetch');
-const apiUrl = 'https://api.anthropic.com/v1/messages';
+// Use dynamic import for fetch
+let fetch; // Declare fetch variable at the top
 
 // Function to send a message to Claude
-async function chatWithClaude(model, messages, maxTokens) {
+export async function chatWithClaude(model, messages, maxTokens) {
+  if (!fetch) { // Import fetch dynamically if not already imported
+    fetch = (await import('node-fetch')).default;
+  }
+  
+  const apiUrl = 'https://api.anthropic.com/v1/messages';
   const apiKey = process.env.ANTHROPIC_API_KEY; // Ensure your API key is stored in environment variables
 
   try {
