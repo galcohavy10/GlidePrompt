@@ -13,7 +13,7 @@ const Contact = () => {
                         Founder's Message:
                     </h2>
                     <p className='text-gray-500 mt-2 p-2'>
-                        Hi, I'm Gal Cohavy and I'm the founder of GlidePrompt. <br/> My phone number is 310-467-3810 and my email is galswlr@gmail.com. <br/> You may reach me directly there. 
+                        Hi, I'm the founder of this tool. <br/> My email is galswlr@gmail.com. <br/> You may reach me directly there. 
                     </p>
                 </div>
                 

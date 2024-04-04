@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { chatWithClaude } from './controllers/chatWithClaude.js'; 
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
+import { chatWithMixtral } from './controllers/chatWithMixtral.js';
 
 dotenv.config();
 
@@ -29,6 +30,8 @@ app.post('/chatWithAI', async (req, res) => {
         response = await chatWithClaude(modelName, messages, maxTokens);
       } else if (company === 'OpenAI') {
         response = await chatWithOpenAI(systemMessage, modelName, messages);
+      } else if (company === 'Mixtral') {
+        response = await chatWithMixtral(systemMessage, modelName, messages);
       } else {
         return res.status(400).json({ error: 'Unsupported company' });
       }
