@@ -10,10 +10,10 @@ const openai = new OpenAI({
 });
 
 // Updated to use ESM export syntax.
-export async function chatWithOpenAI(systemMessage, model, messages) {
+export async function chatWithOpenAI(systemMessage, modelName, messages) {
   try {
     const completion = await openai.chat.completions.create({
-      model: model || "gpt-3.5-turbo",
+      model: modelName || "gpt-3.5-turbo",
       messages: [
         { role: "system", content: systemMessage },
         ...messages,

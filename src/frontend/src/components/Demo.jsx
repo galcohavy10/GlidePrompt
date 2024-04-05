@@ -1,17 +1,41 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function Demo() {
   const [inputText, setInputText] = useState('');
+  const [response, setResponse] = useState('');
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents the default form submit action
-    console.log(inputText); // Log the input text to the console or handle it as needed
-    // Add further actions here, such as sending the text to an API
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setResponse(''); // Clear previous response
+
+    try {
+      // Assuming `inputText` contains all necessary information
+      // You may need to adjust this to match your backend requirements
+      const payload = {
+        company: 'OpenAI', // Example, adjust as needed
+        modelName: 'gpt-3.5-turbo', // Example, adjust accordingly
+        messages: [{ role: "system", content: inputText }], // Adjust based on your requirements
+        systemMessage: inputText, // User input as systemMessage
+      };
+  
+
+      // Send request to your backend
+      const resOpenAI = await axios.post('http://localhost:5000/chatWithAI', { ...payload, company: 'OpenAI' });
+      // const resClaude = await axios.post('http://localhost:5000/chatWithAI', { ...payload, company: 'Anthropic' });
+      console.log('resOpenAI: ', resOpenAI);
+
+      // Update the state with the response
+      setResponse(`OpenAI Response: ${JSON.stringify(resOpenAI.data)}\nClaude Response not implemented yet.`);
+    } catch (error) {
+      console.error('Error sending data to the backend:', error);
+      setResponse('Error: Could not get a response. Check the console for more details.');
+    }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="w-full max-w-xl p-8 space-y-4 bg-white rounded shadow-md">
         <div className="text-xl font-bold text-center">Create Prompt</div>
         <div>
@@ -30,6 +54,12 @@ function Demo() {
           Send
         </button>
       </form>
+      {response && (
+        <div className="mt-4 w-full max-w-xl p-4 bg-gray-50 rounded-lg border border-gray-300">
+          <p className="text-sm text-gray-900">Response:</p>
+          <pre className="whitespace-pre-wrap text-sm text-gray-800">{response}</pre>
+        </div>
+      )}
     </div>
   );
 }

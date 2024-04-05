@@ -2,7 +2,7 @@
 let fetch; // Declare fetch variable at the top
 
 // Function to send a message to Claude
-export async function chatWithClaude(model, messages, maxTokens) {
+export async function chatWithClaude(systemMessage, modelName, messages) {
   if (!fetch) { // Import fetch dynamically if not already imported
     fetch = (await import('node-fetch')).default;
   }
@@ -19,9 +19,10 @@ export async function chatWithClaude(model, messages, maxTokens) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: model,
-        max_tokens: maxTokens,
+        model: modelName,
+        max_tokens: 1000,
         messages: messages,
+        system_message: systemMessage,
       }),
     });
 
