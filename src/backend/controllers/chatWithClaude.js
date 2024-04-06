@@ -20,7 +20,7 @@ export async function chatWithClaude(systemMessage, modelName, messages) {
       },
       body: JSON.stringify({
         model: modelName,
-        max_tokens: 1000,
+        max_tokens: 100,
         messages: messages,
         system_message: systemMessage,
       }),

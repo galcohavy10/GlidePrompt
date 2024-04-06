@@ -2,6 +2,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { chatWithClaude } from './controllers/chatWithClaude.js'; 
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
 import { chatWithMixtral } from './controllers/chatWithMixtral.js';
@@ -13,17 +14,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
-// Conditional CORS for non-production environments
+// Apply CORS based on environment, directly and synchronously
 if (process.env.NODE_ENV !== 'production') {
-  // Static import if CORS is used throughout the application
-  // Or dynamic import with awaiting resolution if specifically required here.
-  import('cors').then(corsModule => {
-    app.use(corsModule.default());
-  });
+  console.log('CORS enabled for development');
+  app.use(cors()); // Direct and synchronous application of CORS
 }
 
 app.get('/', (req, res) => {
-    res.send('Gal is a big fucking idiot');
+    res.send('Hello World');
     }
 );
 

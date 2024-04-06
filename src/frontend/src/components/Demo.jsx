@@ -11,23 +11,30 @@ function Demo() {
     setResponse(''); // Clear previous response
 
     try {
-      // Assuming `inputText` contains all necessary information
-      // You may need to adjust this to match your backend requirements
-      const payload = {
-        company: 'OpenAI', // Example, adjust as needed
-        modelName: 'gpt-3.5-turbo', // Example, adjust accordingly
-        messages: [{ role: "system", content: inputText }], // Adjust based on your requirements
-        systemMessage: inputText, // User input as systemMessage
+      // Payload for OpenAI request
+      const payloadOpenAI = {
+        company: 'OpenAI',
+        modelName: 'gpt-3.5-turbo',
+        messages: [{ role: "system", content: inputText }],
+        systemMessage: inputText,
       };
-  
 
-      // Send request to your backend
-      const resOpenAI = await axios.post('http://localhost:5000/chatWithAI', { ...payload, company: 'OpenAI' });
-      // const resClaude = await axios.post('http://localhost:5000/chatWithAI', { ...payload, company: 'Anthropic' });
-      console.log('resOpenAI: ', resOpenAI);
+      // Payload for Claude request
+      const payloadClaude = {
+        company: 'Anthropic',
+        modelName: 'claude-3-haiku-20240307',
+        messages: [{ role: "system", content: inputText }],
+        systemMessage: inputText,
+      };
 
-      // Update the state with the response
-      setResponse(`OpenAI Response: ${JSON.stringify(resOpenAI.data)}\nClaude Response not implemented yet.`);
+      // Send request to your backend for OpenAI and Claude in parallel
+      const [resOpenAI, resClaude] = await Promise.all([
+        axios.post('http://localhost:5000/chatWithAI', payloadOpenAI),
+        axios.post('http://localhost:5000/chatWithAI', payloadClaude)
+      ]);
+
+      // Update the state with both responses
+      setResponse(`OpenAI Response: ${JSON.stringify(resOpenAI.data)}\nClaude Response: ${JSON.stringify(resClaude.data)}`);
     } catch (error) {
       console.error('Error sending data to the backend:', error);
       setResponse('Error: Could not get a response. Check the console for more details.');
