@@ -14,7 +14,7 @@ const Cards = () => {
         </h1>
 
         <p className='text-center text-gray-500 mb-20'>
-        Prices will never be this low again, lock in now 🔒
+        Prices will never be this low again.
         </p>
 
       {/* Cards Section */}
