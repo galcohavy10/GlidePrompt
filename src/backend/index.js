@@ -36,7 +36,7 @@ app.post('/chatWithAI', async (req, res) => {
     try {
       let response;
       if (company === 'Anthropic') {
-        response = await chatWithClaude(systemMessage, modelName, messages);
+        response = await chatWithClaude(systemMessage, modelName, messages); 
       } else if (company === 'OpenAI') {
         response = await chatWithOpenAI(systemMessage, modelName, messages);
       } else if (company === 'Mixtral') {

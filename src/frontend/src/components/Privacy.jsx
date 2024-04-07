@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
                     We may update this policy from time to time. Any changes will be posted on this page.
 
                     <br /><br />
-                    If you have any questions or concerns about this policy, please contact us at galswlr@gmail.com.
+                    If you have any questions or concerns about this policy, please contact us at glideprompt@gmail.com.
                 </p>
             </div>
         </div>

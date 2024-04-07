@@ -1,38 +1,27 @@
-// Use dynamic import for fetch
-let fetch; // Declare fetch variable at the top
+import Anthropic from '@anthropic-ai/sdk';
 
 // Function to send a message to Claude
 export async function chatWithClaude(systemMessage, modelName, messages) {
-  if (!fetch) { // Import fetch dynamically if not already imported
-    fetch = (await import('node-fetch')).default;
+  // Ensure your API key is stored in environment variables
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new Error("API key is not set in environment variables.");
   }
-  
-  const apiUrl = 'https://api.anthropic.com/v1/messages';
-  const apiKey = process.env.ANTHROPIC_API_KEY; // Ensure your API key is stored in environment variables
+
+  // Initialize the Anthropic client with your API key
+  const client = new Anthropic({apiKey: apiKey});
 
   try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: modelName,
-        max_tokens: 100,
-        messages: messages,
-        system_message: systemMessage,
-      }),
-    });
+    // Use the SDK's method to send a message
+    const response = await client.messages.create({
+      model: modelName,
+      max_tokens: 100,
+      messages: messages,
+    })
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await response.json();
-    console.log("claude response: ", data.content);
-    return data.content;
+    // Assuming the 'chat' method returns the response directly
+    console.log("Claude response: ", response.content);
+    return response.content;
   } catch (error) {
     console.error(error);
     throw new Error("Internal Server Error: Unable to chat with Claude");

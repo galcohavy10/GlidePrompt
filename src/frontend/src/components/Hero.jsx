@@ -19,7 +19,7 @@ const Hero = () => {
         <p className='text-[#00df9a] font-bold p-2'>
           Finally,
         </p>
-        <h1 className='md:text-7xl mt-[-20px] sm:text-6xl text-4xl font-bold md:py-6'>
+        <h1 className='md:text-7xl mt-[-10px] sm:text-6xl text-4xl font-bold md:py-6'>
           A Prompt-Engineering Toolkit
         </h1>
         <div className='flex justify-center items-center'>
