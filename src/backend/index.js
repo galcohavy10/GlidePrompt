@@ -6,6 +6,7 @@ import cors from 'cors';
 import { chatWithClaude } from './controllers/chatWithClaude.js'; 
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
 import { chatWithMixtral } from './controllers/chatWithMixtral.js';
+import { chatWithGemini } from './controllers/chatWithGemini.js';
 
 dotenv.config();
 
@@ -41,6 +42,8 @@ app.post('/chatWithAI', async (req, res) => {
         response = await chatWithOpenAI(systemMessage, modelName, messages);
       } else if (company === 'Mistral') {
         response = await chatWithMixtral(systemMessage, modelName, messages);
+      } else if (company === 'Google') {
+        response = await chatWithGemini(modelName, messages);
       } else {
         return res.status(400).json({ error: 'Unsupported company' });
       }

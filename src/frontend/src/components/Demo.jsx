@@ -6,13 +6,15 @@ import ChatResponsePreview from './ChatResponsePreview'; // Import the new compo
 import { ReactComponent as ChatGPTIcon } from '../assets/chatgpt-icon.svg';
 import { ReactComponent as ClaudeIcon } from '../assets/claude-icon.svg';
 import { ReactComponent as MistralIcon } from '../assets/mistral-icon.svg';
-
+import { ReactComponent as GeminiIcon } from '../assets/gemini-icon.svg';
 
 function Demo() {
   const [inputText, setInputText] = useState('');
   const [openAIResponse, setOpenAIResponse] = useState('');
   const [claudeResponse, setClaudeResponse] = useState('');
   const [mistralResponse, setMistralResponse] = useState('');
+  const [geminiResponse, setGeminiResponse] = useState('');
+
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -21,6 +23,8 @@ function Demo() {
     setOpenAIResponse('');
     setClaudeResponse('');
     setMistralResponse('');
+    setGeminiResponse(''); 
+
 
     try {
       // Payload for OpenAI request
@@ -46,17 +50,27 @@ function Demo() {
         systemMessage: inputText,
       };
 
-      // Send request to your backend for OpenAI and Claude in parallel
-      const [resOpenAI, resClaude, resMistral] = await Promise.all([
+      const payloadGemini = {
+        company: 'Google',
+        modelName: 'gemini-pro',
+        messages: [{ role: "user", content: inputText }],
+        systemMessage: inputText,
+      };
+
+      // Send request to your backend for OpenAI, Claude, Mistral, and Gemini in parallel
+      const [resOpenAI, resClaude, resMistral, resGemini] = await Promise.all([
         axios.post('http://localhost:5000/chatWithAI', payloadOpenAI),
         axios.post('http://localhost:5000/chatWithAI', payloadClaude),
-        axios.post('http://localhost:5000/chatWithAI', payloadMistral)
+        axios.post('http://localhost:5000/chatWithAI', payloadMistral),
+        axios.post('http://localhost:5000/chatWithAI', payloadGemini) // New request for Gemini
       ]);
 
       // Update state variables for each response
       setOpenAIResponse(resOpenAI.data.response);
       setClaudeResponse(resClaude.data.response.map(message => message.text).join('\n'));
       setMistralResponse(resMistral.data.response);
+      setGeminiResponse(resGemini.data.response);
+
 
     } catch (error) {
       console.error('Error sending data to the backend:', error);
@@ -85,7 +99,9 @@ function Demo() {
       <div className="flex flex-wrap justify-center mt-8">
 {openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
 {claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
-{mistralResponse && <ChatResponsePreview title="Mistral Response" text={mistralResponse} Logo={MistralIcon} />}
+{mistralResponse && <ChatResponsePreview title="Mistral 7B Response" text={mistralResponse} Logo={MistralIcon} />}
+{geminiResponse && <ChatResponsePreview title="Gemini Response" text={geminiResponse} Logo={GeminiIcon} />} {/* Display Gemini's response */}
+
 
       </div>
     </div>
