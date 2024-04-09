@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import ChatResponsePreview from './ChatResponsePreview'; // Import the new component
+
+// Import SVGs as React components so they can be used as props
+import { ReactComponent as ChatGPTIcon } from '../assets/chatgpt-icon.svg';
+import { ReactComponent as ClaudeIcon } from '../assets/claude-icon.svg';
+import { ReactComponent as MistralIcon } from '../assets/mistral-icon.svg';
+
 
 function Demo() {
   const [inputText, setInputText] = useState('');
-  const [response, setResponse] = useState('');
+  const [openAIResponse, setOpenAIResponse] = useState('');
+  const [claudeResponse, setClaudeResponse] = useState('');
+  const [mistralResponse, setMistralResponse] = useState('');
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setResponse(''); // Clear previous response
+    // Clear previous responses
+    setOpenAIResponse('');
+    setClaudeResponse('');
+    setMistralResponse('');
 
     try {
       // Payload for OpenAI request
@@ -27,26 +39,27 @@ function Demo() {
         systemMessage: inputText,
       };
 
+      const payloadMistral = {
+        company: 'Mistral',
+        modelName: 'mistral-chat',
+        messages: [{ role: "user", content: inputText }],
+        systemMessage: inputText,
+      };
+
       // Send request to your backend for OpenAI and Claude in parallel
-      const [resOpenAI, resClaude] = await Promise.all([
+      const [resOpenAI, resClaude, resMistral] = await Promise.all([
         axios.post('http://localhost:5000/chatWithAI', payloadOpenAI),
-        axios.post('http://localhost:5000/chatWithAI', payloadClaude)
+        axios.post('http://localhost:5000/chatWithAI', payloadClaude),
+        axios.post('http://localhost:5000/chatWithAI', payloadMistral)
       ]);
 
-      // Assuming resOpenAI.data contains the message string directly
-      const openAIResponse = resOpenAI.data.response;
-
-      // Assuming resClaude.data.response is an array of message objects
-      const claudeResponse = resClaude.data.response
-        .filter(message => message.type === 'text') // Filter out only text responses, if needed
-        .map(message => message.text) // Extract the text from each message object
-        .join('\n'); // Join all messages with a newline, or choose another separator as needed
-
-      setResponse(`ChatGPT Response: ${openAIResponse}\nClaude Response: ${claudeResponse}`);
+      // Update state variables for each response
+      setOpenAIResponse(resOpenAI.data.response);
+      setClaudeResponse(resClaude.data.response.map(message => message.text).join('\n'));
+      setMistralResponse(resMistral.data.response);
 
     } catch (error) {
       console.error('Error sending data to the backend:', error);
-      setResponse('Error: Could not get a response. Check the console for more details.');
     }
   };
 
@@ -69,12 +82,12 @@ function Demo() {
           Send
         </button>
       </form>
-      {response && (
-        <div className="mt-8 w-full max-w-2xl p-8 bg-white rounded-lg border border-gray-300 shadow-xl">
-          <p className="text-lg font-semibold text-gray-900">Response:</p>
-          <pre className="whitespace-pre-wrap text-lg text-gray-800">{response}</pre>
-        </div>
-      )}
+      <div className="flex flex-wrap justify-center mt-8">
+{openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
+{claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
+{mistralResponse && <ChatResponsePreview title="Mistral Response" text={mistralResponse} Logo={MistralIcon} />}
+
+      </div>
     </div>
   );
   

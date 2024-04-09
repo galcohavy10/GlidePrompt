@@ -11,8 +11,9 @@ const openai = new OpenAI({
 });
 
 // Updated to use ESM export syntax.
-export async function chatWithMixtral(systemMessage, model, messages) {
+export async function chatWithMixtral(systemMessage, modelName, messages) {
   try {
+    console.log("Sending request with system message: ", systemMessage, " and messages: ", messages, " to model: ", modelName);
     const completion = await openai.chat.completions.create({
       model: "mixtral-chat",
       messages: [
