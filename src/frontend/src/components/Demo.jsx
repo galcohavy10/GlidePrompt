@@ -15,66 +15,39 @@ function Demo() {
   const [mistralResponse, setMistralResponse] = useState('');
   const [geminiResponse, setGeminiResponse] = useState('');
 
-
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Clear previous responses
     setOpenAIResponse('');
     setClaudeResponse('');
     setMistralResponse('');
-    setGeminiResponse(''); 
+    setGeminiResponse('');
 
+    const messages = [{ role: "user", content: inputText }];
+    const payloads = [
+      { company: 'OpenAI', modelName: 'gpt-3.5-turbo', messages: messages, systemMessage: inputText },
+      { company: 'Anthropic', modelName: 'claude-3-haiku-20240307', messages: messages, systemMessage: inputText },
+      { company: 'Mistral', modelName: 'mistral-chat', messages: messages, systemMessage: inputText },
+      { company: 'Google', modelName: 'gemini-pro', messages: messages, systemMessage: inputText }
+    ];
 
-    try {
-      // Payload for OpenAI request
-      const payloadOpenAI = {
-        company: 'OpenAI',
-        modelName: 'gpt-3.5-turbo',
-        messages: [{ role: "user", content: "hi" }],
-        systemMessage: inputText,
-      };
+    const urls = payloads.map(() => 'http://localhost:5000/chatWithAI');
 
-      // Payload for Claude request
-      const payloadClaude = {
-        company: 'Anthropic',
-        modelName: 'claude-3-haiku-20240307',
-        messages: [{ "role": "user", "content": inputText }],
-        systemMessage: inputText,
-      };
-
-      const payloadMistral = {
-        company: 'Mistral',
-        modelName: 'mistral-chat',
-        messages: [{ role: "user", content: inputText }],
-        systemMessage: inputText,
-      };
-
-      const payloadGemini = {
-        company: 'Google',
-        modelName: 'gemini-pro',
-        messages: [{ role: "user", content: inputText }],
-        systemMessage: inputText,
-      };
-
-      // Send request to your backend for OpenAI, Claude, Mistral, and Gemini in parallel
-      const [resOpenAI, resClaude, resMistral, resGemini] = await Promise.all([
-        axios.post('http://localhost:5000/chatWithAI', payloadOpenAI),
-        axios.post('http://localhost:5000/chatWithAI', payloadClaude),
-        axios.post('http://localhost:5000/chatWithAI', payloadMistral),
-        axios.post('http://localhost:5000/chatWithAI', payloadGemini) // New request for Gemini
-      ]);
-
-      // Update state variables for each response
-      setOpenAIResponse(resOpenAI.data.response);
-      setClaudeResponse(resClaude.data.response.map(message => message.text).join('\n'));
-      setMistralResponse(resMistral.data.response);
-      setGeminiResponse(resGemini.data.response);
-
-
-    } catch (error) {
-      console.error('Error sending data to the backend:', error);
-    }
+    urls.forEach((url, i) => {
+      axios.post(url, payloads[i]).then(res => {
+        const response = res.data.response;
+        if (i === 0) setOpenAIResponse(response);
+        else if (i === 1) setClaudeResponse(response.map(message => message.text).join('\n'));
+        else if (i === 2) setMistralResponse(response);
+        else if (i === 3) setGeminiResponse(response);
+      }).catch(error => {
+        const errorMessage = `Error with ${payloads[i].company}: ${error.message}`;
+        if (i === 0) setOpenAIResponse(errorMessage);
+        else if (i === 1) setClaudeResponse(errorMessage);
+        else if (i === 2) setMistralResponse(errorMessage);
+        else if (i === 3) setGeminiResponse(errorMessage);
+      });
+    });
   };
 
   return (
