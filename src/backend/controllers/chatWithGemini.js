@@ -7,9 +7,9 @@ export async function chatWithGemini(systemMessage, modelName, messages = []) {
 
     try {
         // show the structure of all the params
-        console.log("systemMessage: ", systemMessage);
-        console.log("modelName: ", modelName);
-        console.log("messages: ", messages);
+        console.log("GEMINI systemMessage: ", systemMessage);
+        console.log("GEMINI modelName: ", modelName);
+        console.log("GEMINI messages: ", messages);
         // Convert messages format from frontend to match Google AI's expected format
         const history = messages.map(msg => ({
             role: msg.role,
@@ -30,7 +30,6 @@ export async function chatWithGemini(systemMessage, modelName, messages = []) {
         // Since the last message is already added, just proceed to get a response
         // This assumes the API automatically responds to the last message
         const result = await chat.sendMessage(systemMessage);
-        console.log("Gemini response: ", response);
 
         // Assuming the 'response' method or property directly gives the final text response
         const response = await result.response;

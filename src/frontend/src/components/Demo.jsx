@@ -53,7 +53,7 @@ function Demo() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
       <form onSubmit={handleSubmit} className="w-full max-w-xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
-      <h1 className="text-2xl font-bold text-center text-gray-800">Test a System Prompt</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800">Test a System Prompt</h1>
         <div>
           <input
             type="text"
@@ -70,17 +70,15 @@ function Demo() {
         </button>
       </form>
       <div className="flex flex-wrap justify-center mt-8">
-{openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
-{claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
-{mistralResponse && <ChatResponsePreview title="Mistral 7B Response" text={mistralResponse} Logo={MistralIcon} />}
-{geminiResponse && <ChatResponsePreview title="Gemini Response" text={geminiResponse} Logo={GeminiIcon} />} {/* Display Gemini's response */}
-
-
+        {openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
+        {claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
+        {mistralResponse && <ChatResponsePreview title="Mistral 7B Response" text={mistralResponse} Logo={MistralIcon} />}
+        {geminiResponse && <ChatResponsePreview title="Gemini Response" text={geminiResponse} Logo={GeminiIcon} />}
       </div>
     </div>
   );
-  
-  
 }
 
 export default Demo;
+  
+  

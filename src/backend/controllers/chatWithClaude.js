@@ -15,7 +15,7 @@ export async function chatWithClaude(systemMessage, modelName, messages) {
     // Use the SDK's method to send a message
     const response = await client.messages.create({
       model: modelName,
-      max_tokens: 100,
+      max_tokens: 500,
       messages: messages,
     })
 
