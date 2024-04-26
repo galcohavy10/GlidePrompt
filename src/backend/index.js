@@ -43,7 +43,7 @@ app.post('/chatWithAI', async (req, res) => {
       } else if (company === 'Mistral') {
         response = await chatWithMixtral(systemMessage, modelName, messages);
       } else if (company === 'Google') {
-        response = await chatWithGemini(modelName, messages);
+        response = await chatWithGemini(modelName, systemMessage);
       } else {
         return res.status(400).json({ error: 'Unsupported company' });
       }

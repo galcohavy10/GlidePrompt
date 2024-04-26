@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 // Initialize the Google Generative AI with your API key
 const genAI = new GoogleGenerativeAI(process.env.GOOGLEAI_API_KEY);
 
-export async function chatWithGemini(systemMessage, modelName, messages = []) {
+export async function chatWithGemini(modelName, systemMessage, messages = []) {
 
     try {
         // show the structure of all the params
