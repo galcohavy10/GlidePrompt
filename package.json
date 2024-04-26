@@ -16,7 +16,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
-    "openai": "^4.32.1"
+    "openai": "^4.32.1",
+    "replicate": "^0.29.1"
   },
   "type": "module"
 }
