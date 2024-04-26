@@ -15,7 +15,7 @@ function TestResponses({ initialPrompt }) {
   const [isEditingSystemMessage, setIsEditingSystemMessage] = useState(true);
   const [openAIResponse, setOpenAIResponse] = useState('');
   const [claudeResponse, setClaudeResponse] = useState('');
-  const [mistralResponse, setMistralResponse] = useState('');
+  const [replicateResponse, setReplicateResponse] = useState('');
   const [geminiResponse, setGeminiResponse] = useState('');
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function TestResponses({ initialPrompt }) {
     const payloads = [
       { company: 'OpenAI', modelName: 'gpt-3.5-turbo', messages: messages, systemMessage: systemMessage },
       { company: 'Anthropic', modelName: 'claude-3-haiku-20240307', messages: messages, systemMessage: systemMessage },
-      { company: 'Mistral', modelName: 'mistral-chat', messages: messages, systemMessage: systemMessage },
+      { company: 'Replicate', modelName: 'meta/meta-llama-3-70b-instruct', messages: messages, systemMessage: systemMessage },
       { company: 'Google', modelName: 'gemini-pro', messages: messages, systemMessage: systemMessage }
     ];
 
@@ -55,8 +55,8 @@ function TestResponses({ initialPrompt }) {
             case 'Anthropic':
               setClaudeResponse(response.map(message => message.text).join('\n'));
               break;
-            case 'Mistral':
-              setMistralResponse(response);
+            case 'Replicate':
+              setReplicateResponse(response);
               break;
             case 'Google':
               setGeminiResponse(response);
@@ -75,7 +75,7 @@ function TestResponses({ initialPrompt }) {
               setClaudeResponse(errorMessage);
               break;
             case 'Mistral':
-              setMistralResponse(errorMessage);
+              setReplicateResponse(errorMessage);
               break;
             case 'Google':
               setGeminiResponse(errorMessage);
@@ -143,7 +143,7 @@ function TestResponses({ initialPrompt }) {
       <div className="flex flex-wrap justify-center mt-8">
         {openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
         {claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
-        {mistralResponse && <ChatResponsePreview title="Mistral 7B Response" text={mistralResponse} Logo={MistralIcon} />}
+        {replicateResponse && <ChatResponsePreview title="Mistral 7B Response" text={replicateResponse} Logo={MistralIcon} />}
         {geminiResponse && <ChatResponsePreview title="Gemini Response" text={geminiResponse} Logo={GeminiIcon} />}
       </div>
     </div>

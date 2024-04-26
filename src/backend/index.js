@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { chatWithClaude } from './controllers/chatWithClaude.js'; 
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
-import { chatWithMixtral } from './controllers/chatWithMixtral.js';
+import { chatWithReplicate } from './controllers/chatWithReplicate.js';
 import { chatWithGemini } from './controllers/chatWithGemini.js';
 
 dotenv.config();
@@ -40,8 +40,8 @@ app.post('/chatWithAI', async (req, res) => {
         response = await chatWithClaude(systemMessage, modelName, messages); 
       } else if (company === 'OpenAI') {
         response = await chatWithOpenAI(systemMessage, modelName, messages);
-      } else if (company === 'Mistral') {
-        response = await chatWithMixtral(systemMessage, modelName, messages);
+      } else if (company === 'Replicate') {
+        response = await chatWithReplicate(systemMessage, modelName, messages);
       } else if (company === 'Google') {
         response = await chatWithGemini(modelName, systemMessage);
       } else {
