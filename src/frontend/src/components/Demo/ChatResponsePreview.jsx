@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ExpandedView from './ExpandedChatResponse'; // New component for expanded view
+import ExpandedView from './ExpandedChatResponse';
 
 function ChatResponsePreview({ title, text, Logo }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -10,7 +10,7 @@ function ChatResponsePreview({ title, text, Logo }) {
   };
 
   // Truncate text if it exceeds the maximum character length
-  const displayText = isExpanded ? text : `${text.substring(0, maxCharLength)}...`;
+  const displayText = `${text.substring(0, maxCharLength)}...`;
 
   return (
     <div className="flex p-4 my-4 mx-auto max-w-md bg-white rounded-lg border border-gray-200 shadow-md items-center space-x-4 animate-fadeIn">
