@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d30d4664.css",
+    "main.js": "/static/js/main.56756f09.js",
+    "static/media/laptop.jpg": "/static/media/laptop.45ddf500e572fb2f1d35.jpg",
+    "static/media/single.png": "/static/media/single.20196aa3e7e7fa48f8f7.png",
+    "static/media/triple.png": "/static/media/triple.4eb8f19f4b4647321484.png",
+    "static/media/logo.png": "/static/media/logo.ea26ce70b47056c54e46.png",
+    "static/media/mistral-icon.svg": "/static/media/mistral-icon.027143811e4c3feb1b434a3e8a13ffa7.svg",
+    "static/media/chatgpt-icon.svg": "/static/media/chatgpt-icon.927bf6bfd681beab116978c99d166ed9.svg",
+    "index.html": "/index.html",
+    "static/media/gemini-icon.svg": "/static/media/gemini-icon.420bfc8c19363a492ad35f5d0b442b2e.svg",
+    "static/media/claude-icon.svg": "/static/media/claude-icon.7f91185c1cbefcc23db0c3144c1234ba.svg",
+    "main.d30d4664.css.map": "/static/css/main.d30d4664.css.map",
+    "main.56756f09.js.map": "/static/js/main.56756f09.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d30d4664.css",
+    "static/js/main.56756f09.js"
+  ]
+}
