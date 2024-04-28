@@ -45,7 +45,7 @@ function TestResponses({ initialPrompt }) {
     ];
 
     payloads.forEach(payload => {
-      axios.post('http://localhost:5000/chatWithAI', payload)
+      axios.post('/chatWithAI', payload)
         .then(res => {
           const response = res.data.response;
           switch(payload.company) {

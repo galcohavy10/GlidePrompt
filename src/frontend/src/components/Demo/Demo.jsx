@@ -60,7 +60,7 @@ function Demo() {
     };
 
     try {
-      const res = await axios.post('http://localhost:5000/chatWithAI', payload);
+      const res = await axios.post('/chatWithAI', payload);
       const response = res.data.response;
       setSystemPrompt(response); // Handle the response appropriately
     } catch (error) {

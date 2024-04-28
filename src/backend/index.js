@@ -9,22 +9,26 @@ import { chatWithReplicate } from './controllers/chatWithReplicate.js';
 import { chatWithGemini } from './controllers/chatWithGemini.js';
 
 dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
-// Apply CORS based on environment, directly and synchronously
-if (process.env.NODE_ENV !== 'production') {
-  console.log('CORS enabled for development');
-  app.use(cors()); // Direct and synchronous application of CORS
-}
+app.use(cors());
+
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
-    }
-);
+  // send the index.html file
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+});
+
 
 
 app.post('/chatWithAI', async (req, res) => {
