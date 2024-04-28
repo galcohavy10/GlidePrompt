@@ -17,7 +17,7 @@ const Footer = ({ setCurrentPage }) => {
     <div className='max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-300'>
       <div>
       <img src={logo} alt="NEXAFLOW Logo" className='w-auto h-32 object-cover cursor-pointer' onClick={() => setCurrentPage('home')} />
-        <p className='py-4'>Building tools to enable efficient AI insfrastructure creation.</p>
+        <p className='py-4'>Building tools to enable AI builders.</p>
         <div className='flex justify-between md:w-[75%] my-6'>
             <a href="https://www.instagram.com/ustockapp/" target="_blank" rel="noreferrer"><FaInstagram size={30} /></a>
             <a href="https://www.twitter.com/CohavyGal" target="_blank" rel="noreferrer"><FaTwitterSquare size={30} /></a>
