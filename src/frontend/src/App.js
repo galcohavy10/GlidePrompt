@@ -18,9 +18,10 @@ import axios from 'axios';
 function App() {
   useEffect(() => {
     // Setting the Axios base URL at the top level of the application
-    const baseURL = process.env.REACT_APP_API_URL || ''; // Fallback to empty string if not defined, which means we'll be in production
-    console.log('baseURL:', baseURL);
+    console.log('node env:', process.env.NODE_ENV);
+    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
     axios.defaults.baseURL = baseURL;
+    console.log('axios base URL:', axios.defaults.baseURL);
   }, []);
 
   const [currentPage, setCurrentPage] = useState('home'); //so navbar and footer can control navigation
