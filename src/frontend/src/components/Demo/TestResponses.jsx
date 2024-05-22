@@ -20,6 +20,7 @@ function TestResponses({ initialPrompt }) {
 
   useEffect(() => {
     if (initialPrompt) {
+      //set system message but display it with no quotes
       setSystemMessage(initialPrompt);
     }
   }, [initialPrompt]);

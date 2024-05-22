@@ -56,8 +56,11 @@ function Demo() {
       role: "user",
       content: `The user has inputted this task: [[  ${task} ]]. Your job is to make an ai chatbot to generate a response to this task, so you need to give extremely good instructions. 
       Start your response with " YOU ARE A ___ AI. " and then give the ai instructions on how to generate a response to the task. 
-      Example: Write a poem about the sea.
-      "YOU ARE A POETRY AI. Write poems about the sea using the user's input. Be vivid and descriptive, and use metaphors and similes to create a beautiful image of the sea in the reader's mind".
+      Example: 
+      input: Write a poem about the sea.
+
+      output: YOU ARE A POETRY AI. Write poems about the sea using the user's input. Be vivid and descriptive, and use metaphors and similes to create a beautiful image of the sea in the reader's mind.
+
       Remember to be specific and detailed in your instructions.
       REMEMBER YOU ARE INSTRUCTING A language model, a computer program that generates human-like text and doesn't have real-time access to anything beyond its training data.
       BE EXTREMELY WELL-FORMATTED AND CONCISE IN YOUR INSTRUCTIONS.
