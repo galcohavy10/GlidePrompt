@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TestResponses from './TestResponses';
+import Lottie from 'react-lottie';
+import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
 
 function Demo() {
   const [userTask, setUserTask] = useState('');
@@ -24,6 +26,15 @@ function Demo() {
       
     setTaskOptions(shuffleArray(allTasks).slice(0, 3));
   }, []);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -77,14 +88,16 @@ function Demo() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] w-full">
-        <div className="flex flex-col items-center">  
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-          <h2 className="text-lg font-semibold text-gray-800 mt-4">Crafting a system prompt for task: {userTask}</h2>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
+      <div className="flex flex-col items-center">
+        <Lottie options={defaultOptions} height={250} width={300} />
+
+          <h2 className="text-xl font-italic text-black mt-4">Crafting a system prompt for task: {userTask}</h2>
         </div>
       </div>
     );
   }
+  
   
 
   if (systemPrompt) {
@@ -93,7 +106,7 @@ function Demo() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-        <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+        <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
             <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
             <div>
                 <textarea
@@ -118,7 +131,6 @@ function Demo() {
                 </button>
               ))}
             </div>
-
         </form>
     </div>
 );
