@@ -98,14 +98,16 @@ function Demo() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-      <div className="flex flex-col items-center">
-        <Lottie options={defaultOptions} height={250} width={300} />
-
-          <h2 className="text-xl font-italic text-black mt-4">Crafting a system prompt for task: {userTask}</h2>
+        <div className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+          <div className="flex flex-col items-center">
+            <Lottie options={defaultOptions} height={250} width={300} />
+            <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
+          </div>
         </div>
       </div>
     );
   }
+  
   
   
 
