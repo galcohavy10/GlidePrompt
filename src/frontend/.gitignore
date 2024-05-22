@@ -8,7 +8,7 @@
 # testing
 /coverage
 
-# production, I commented this shit out because i'd rather we push the build manuall for now
+# production, I commented this shit out because i'd rather we push the build manual for now
 # /build
 
 # misc

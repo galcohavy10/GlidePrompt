@@ -11,6 +11,7 @@ function Demo() {
   const [taskOptions, setTaskOptions] = useState([]);
 
   useEffect(() => {
+
     const allTasks = [
         "Create packing lists for of trips",
         "Write persuasive essays on various topics",
