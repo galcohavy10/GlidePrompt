@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TestResponses from './TestResponses';
 import Lottie from 'react-lottie';
+import { FaClipboardList, FaRocket, FaVials } from "react-icons/fa";
 import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
 
 function Demo() {
@@ -12,9 +13,9 @@ function Demo() {
 
   const [currentStep, setCurrentStep] = useState(0);
   const steps = [
-    { name: 'Input Task', description: 'User inputs a task' },
-    { name: 'Generate Prompt', description: 'System generates prompt' },
-    { name: 'Test Prompt', description: 'User tests the generated prompt' }
+    { name: 'Task', icon: <FaClipboardList />, description: 'User inputs a task' },
+    { name: 'Get Prompt', icon: <FaRocket />, description: 'System generates prompt' },
+    { name: 'Test', icon: <FaVials />, description: 'User tests the generated prompt' }
   ];
 
   useEffect(() => {
@@ -54,6 +55,8 @@ function Demo() {
 
   const handleTaskOptionClick = (task) => {
     setUserTask(task);
+    setCurrentStep(1); // Move to the next step
+
   };
 
   const getSystemPrompt = async (task) => {
@@ -95,6 +98,38 @@ function Demo() {
     await getSystemPrompt(userTask);
   };
 
+  const StatusBar = () => (
+    <div className="flex items-center justify-center my-4">
+      {steps.map((step, index) => (
+        <React.Fragment key={index}>
+          {index > 0 && (
+            // Line connecting the icons
+            <div
+              style={{
+                height: '2px',
+                backgroundColor: currentStep >= index ? '#6a0dad' : '#ccc', // purple when past or at the step, grey otherwise
+                flex: 1 // This ensures the lines expand to fill the space
+              }}
+            />
+          )}
+          <div
+            className={`flex flex-col items-center ${currentStep >= index ? 'text-purple-600' : 'text-gray-400'}`}
+            style={{ width: 40, textAlign: 'center' }} // Ensuring consistent spacing and alignment
+          >
+            <div className="text-2xl">
+              {step.icon}
+            </div>
+            <span className="text-xs">{step.name}</span>
+          </div>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+  
+
+  
+
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
@@ -117,34 +152,35 @@ function Demo() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-        <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
-            <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
-            <div>
-                <textarea
-                    id="taskInput"
-                    value={userTask}
-                    onChange={(e) => setUserTask(e.target.value)}
-                    className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
-                    placeholder="Enter a task..."
-                    required
-                    rows={Math.min(6, Math.max(1, userTask.split('\n').length))}
-                    style={{ resize: 'none', lineHeight: '24px' }}
-                    wrap="soft"  // soft is the default behavior, ensures that text wraps to next line
-                />
-            </div>
-            <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all" disabled={isLoading}>
-                {isLoading ? 'Generating...' : 'Generate Prompt'}
+      <StatusBar />
+      <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+        <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
+        <div>
+          <textarea
+            id="taskInput"
+            value={userTask}
+            onChange={(e) => setUserTask(e.target.value)}
+            className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
+            placeholder="Enter a task..."
+            required
+            rows={Math.min(6, Math.max(1, userTask.split('\n').length))}
+            style={{ resize: 'none', lineHeight: '24px' }}
+            wrap="soft"
+          />
+        </div>
+        <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all" disabled={isLoading}>
+          {isLoading ? 'Generating...' : 'Generate Prompt'}
+        </button>
+        <div className="flex justify-around w-full mt-4">
+          {taskOptions.map((task, index) => (
+            <button key={index} onClick={() => handleTaskOptionClick(task)} className="bg-white text-gray-800 font-medium py-2 px-4 border border-gray-300 rounded shadow hover:bg-gray-100">
+              {task}
             </button>
-            <div className="flex justify-around w-full mt-4">
-              {taskOptions.map((task, index) => (
-                <button key={index} onClick={() => handleTaskOptionClick(task)} className="bg-white text-gray-800 font-medium py-2 px-4 border border-gray-300 rounded shadow hover:bg-gray-100">
-                  {task}
-                </button>
-              ))}
-            </div>
-        </form>
+          ))}
+        </div>
+      </form>
     </div>
-);
+  );
 }
 
 export default Demo;
