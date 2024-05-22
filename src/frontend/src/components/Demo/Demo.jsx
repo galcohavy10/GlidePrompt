@@ -10,6 +10,13 @@ function Demo() {
   const [isLoading, setIsLoading] = useState(false);
   const [taskOptions, setTaskOptions] = useState([]);
 
+  const [currentStep, setCurrentStep] = useState(0);
+  const steps = [
+    { name: 'Input Task', description: 'User inputs a task' },
+    { name: 'Generate Prompt', description: 'System generates prompt' },
+    { name: 'Test Prompt', description: 'User tests the generated prompt' }
+  ];
+
   useEffect(() => {
 
     const allTasks = [
@@ -47,8 +54,6 @@ function Demo() {
 
   const handleTaskOptionClick = (task) => {
     setUserTask(task);
-    //wait a second before generating the system prompt, so user sees what they clicked
-    setTimeout(() => getSystemPrompt(task), 1000);
   };
 
   const getSystemPrompt = async (task) => {
