@@ -120,9 +120,17 @@ function TestResponses({ initialPrompt }) {
 
 
           <form onSubmit={handleSubmit} className="w-full max-w-2xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
-            <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!</h1>
+            <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!
+            </h1>
             {/* Subheading saying see which companies perform best for you, no vertical padding small */}
-            <p className="text-lg text-center text-gray-700">See which companies perform best for you!</p>
+            <div className="text-lg text-center text-gray-700 flex justify-center items-center gap-4">
+              See which companies perform best for you!
+              <ChatGPTIcon style={{ width: '30px', height: '30px' }} />
+              <ClaudeIcon style={{ width: '30px', height: '30px' }} />
+              <MistralIcon style={{ width: '30px', height: '30px' }} />
+              <GeminiIcon style={{ width: '30px', height: '30px' }} />
+            </div>
+
             <textarea
               id="userInput"
               value={inputText}
@@ -136,6 +144,7 @@ function TestResponses({ initialPrompt }) {
             <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
               Send
             </button>
+
           </form>
         </>
       )}
