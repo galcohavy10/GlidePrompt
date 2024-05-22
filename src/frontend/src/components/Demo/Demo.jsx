@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TestResponses from './TestResponses';
+import { DemoStatusBar } from './DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
-import { FaClipboardList, FaRocket, FaVials } from "react-icons/fa";
 import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
 
 function Demo() {
@@ -12,11 +12,6 @@ function Demo() {
   const [taskOptions, setTaskOptions] = useState([]);
 
   const [currentStep, setCurrentStep] = useState(0);
-  const steps = [
-    { name: 'Task', icon: <FaClipboardList />, description: 'User inputs a task' },
-    { name: 'Get Prompt', icon: <FaRocket />, description: 'System generates prompt' },
-    { name: 'Test', icon: <FaVials />, description: 'User tests the generated prompt' }
-  ];
 
   useEffect(() => {
 
@@ -98,41 +93,11 @@ function Demo() {
     await getSystemPrompt(userTask);
   };
 
-  const StatusBar = () => (
-    <div className="flex items-center justify-center my-4">
-      {steps.map((step, index) => (
-        <React.Fragment key={index}>
-          {index > 0 && (
-            // Line connecting the icons
-            <div
-              style={{
-                height: '2px',
-                backgroundColor: currentStep >= index ? '#6a0dad' : '#ccc', // purple when past or at the step, grey otherwise
-                flex: 1 // This ensures the lines expand to fill the space
-              }}
-            />
-          )}
-          <div
-            className={`flex flex-col items-center ${currentStep >= index ? 'text-purple-600' : 'text-gray-400'}`}
-            style={{ width: 40, textAlign: 'center' }} // Ensuring consistent spacing and alignment
-          >
-            <div className="text-2xl">
-              {step.icon}
-            </div>
-            <span className="text-xs">{step.name}</span>
-          </div>
-        </React.Fragment>
-      ))}
-    </div>
-  );
-  
-
-  
-
 
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
+       <DemoStatusBar currentStep={currentStep} />
         <div className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
           <div className="flex flex-col items-center">
             <Lottie options={defaultOptions} height={250} width={300} />
@@ -152,7 +117,11 @@ function Demo() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-      <StatusBar />
+          <div className="text-center mt-8 mb-10">
+          <h2 className="text-xl font-semibold text-gray-800">Don't just take our word for it —</h2>
+          <h1 className="text-3xl font-bold text-gray-800">Give it a try, for free!</h1>
+        </div>
+      <DemoStatusBar currentStep={currentStep} />
       <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
         <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
         <div>
