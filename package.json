@@ -5,7 +5,9 @@
   "main": "src/backend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/backend/index.js"
+    "start": "node src/backend/index.js",
+    "start-dev": "cd src/frontend && npm start && cd ..",
+    "start-prod": "cd src/frontend && npm run build && cd ../../ && node src/backend/index.js"
   },
   "author": "",
   "license": "ISC",

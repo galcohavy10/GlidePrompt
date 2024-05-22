@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Analytics from './components/Analytics';
 import Cards from './components/Cards';
 import Footer from './components/Footer';
@@ -13,9 +13,16 @@ import Contact from './components/Contact';
 import PrivacyPolicy from './components/Privacy';
 import TOS from './components/TOS';
 import SocialProof from './components/SocialProof';
-
+import axios from 'axios';
 
 function App() {
+  useEffect(() => {
+    // Setting the Axios base URL at the top level of the application
+    const baseURL = process.env.REACT_APP_API_URL || ''; // Fallback to empty string if not defined, which means we'll be in production
+    console.log('baseURL:', baseURL);
+    axios.defaults.baseURL = baseURL;
+  }, []);
+
   const [currentPage, setCurrentPage] = useState('home'); //so navbar and footer can control navigation
 
   return (
