@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TestResponses from './TestResponses';
+import { DemoStatusBar } from './DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
 import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
 
@@ -9,6 +10,8 @@ function Demo() {
   const [systemPrompt, setSystemPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [taskOptions, setTaskOptions] = useState([]);
+
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
 
@@ -47,8 +50,8 @@ function Demo() {
 
   const handleTaskOptionClick = (task) => {
     setUserTask(task);
-    //wait a second before generating the system prompt, so user sees what they clicked
-    setTimeout(() => getSystemPrompt(task), 1000);
+    setCurrentStep(1); // Move to the next step
+
   };
 
   const getSystemPrompt = async (task) => {
@@ -90,17 +93,21 @@ function Demo() {
     await getSystemPrompt(userTask);
   };
 
+
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-      <div className="flex flex-col items-center">
-        <Lottie options={defaultOptions} height={250} width={300} />
-
-          <h2 className="text-xl font-italic text-black mt-4">Crafting a system prompt for task: {userTask}</h2>
+       <DemoStatusBar currentStep={currentStep} />
+        <div className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+          <div className="flex flex-col items-center">
+            <Lottie options={defaultOptions} height={250} width={300} />
+            <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
+          </div>
         </div>
       </div>
     );
   }
+  
   
   
 
@@ -110,34 +117,39 @@ function Demo() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-        <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
-            <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
-            <div>
-                <textarea
-                    id="taskInput"
-                    value={userTask}
-                    onChange={(e) => setUserTask(e.target.value)}
-                    className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
-                    placeholder="Enter a task..."
-                    required
-                    rows={Math.min(6, Math.max(1, userTask.split('\n').length))}
-                    style={{ resize: 'none', lineHeight: '24px' }}
-                    wrap="soft"  // soft is the default behavior, ensures that text wraps to next line
-                />
-            </div>
-            <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all" disabled={isLoading}>
-                {isLoading ? 'Generating...' : 'Generate Prompt'}
+          <div className="text-center mt-8 mb-10">
+          <h2 className="text-xl font-semibold text-gray-800">Don't just take our word for it —</h2>
+          <h1 className="text-3xl font-bold text-gray-800">Give it a try, for free!</h1>
+        </div>
+      <DemoStatusBar currentStep={currentStep} />
+      <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+        <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
+        <div>
+          <textarea
+            id="taskInput"
+            value={userTask}
+            onChange={(e) => setUserTask(e.target.value)}
+            className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
+            placeholder="Enter a task..."
+            required
+            rows={Math.min(6, Math.max(1, userTask.split('\n').length))}
+            style={{ resize: 'none', lineHeight: '24px' }}
+            wrap="soft"
+          />
+        </div>
+        <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all" disabled={isLoading}>
+          {isLoading ? 'Generating...' : 'Generate Prompt'}
+        </button>
+        <div className="flex justify-around w-full mt-4">
+          {taskOptions.map((task, index) => (
+            <button key={index} onClick={() => handleTaskOptionClick(task)} className="bg-white text-gray-800 font-medium py-2 px-4 border border-gray-300 rounded shadow hover:bg-gray-100">
+              {task}
             </button>
-            <div className="flex justify-around w-full mt-4">
-              {taskOptions.map((task, index) => (
-                <button key={index} onClick={() => handleTaskOptionClick(task)} className="bg-white text-gray-800 font-medium py-2 px-4 border border-gray-300 rounded shadow hover:bg-gray-100">
-                  {task}
-                </button>
-              ))}
-            </div>
-        </form>
+          ))}
+        </div>
+      </form>
     </div>
-);
+  );
 }
 
 export default Demo;

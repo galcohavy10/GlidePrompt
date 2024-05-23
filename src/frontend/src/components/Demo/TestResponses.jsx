@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChatResponsePreview from './ChatResponsePreview'; 
 import { FaCogs } from "react-icons/fa";
+import { DemoStatusBar } from './DemoStatusBar';
 
 // Import SVGs as React components
 import { ReactComponent as ChatGPTIcon } from '../../assets/chatgpt-icon.svg';
@@ -17,6 +18,10 @@ function TestResponses({ initialPrompt }) {
   const [claudeResponse, setClaudeResponse] = useState('');
   const [replicateResponse, setReplicateResponse] = useState('');
   const [geminiResponse, setGeminiResponse] = useState('');
+
+   // Adjust the currentStep based on the systemMessage and isEditingSystemMessage states
+  const currentStep = isEditingSystemMessage ? 2 : (systemMessage ? 3 : 1);
+
 
   useEffect(() => {
     if (initialPrompt) {
@@ -91,6 +96,7 @@ function TestResponses({ initialPrompt }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
+      <DemoStatusBar currentStep={currentStep}/>
       {isEditingSystemMessage ? (
         <form onSubmit={handleSaveSystemMessage} className="w-full max-w-2xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
           { /* Add settings cogs icon next to header */}
