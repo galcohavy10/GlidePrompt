@@ -21,7 +21,7 @@ const Cards = () => {
       <div className='flex flex-wrap justify-center items-start gap-8'>
           <div className='w-full md:w-1/2 lg:w-1/3 xl:w-1/4 shadow-xl flex flex-col p-4 rounded-lg hover:scale-105 duration-300' style={{ maxWidth: "300px" }}>
               <img className='w-20 mx-auto -mt-16 bg-white' src={Single} alt="Starter" />
-              <h2 className='text-2xl font-bold text-center py-8'>Starter</h2>
+              <h2 className='text-2xl font-bold text-center py-8'>Pro</h2>
               <p className='text-center text-4xl font-bold'>$10/month</p>
               <p className='text-center text-gray-500'>Get a Taste</p>
               <div className='text-center font-medium'>
@@ -35,8 +35,8 @@ const Cards = () => {
 
           <div className='w-full md:w-1/2 lg:w-1/3 xl:w-1/4 shadow-xl  bg-gray-100 flex flex-col p-4 rounded-lg hover:scale-105 duration-300' style={{ maxWidth: "300px" }}>
               <img className='w-20 mx-auto -mt-16 bg-white' src={Triple} alt="Starter" />
-              <h2 className='text-2xl font-bold text-center py-8'>Pro</h2>
-              <p className='text-center text-4xl font-bold'>$50/month</p>
+              <h2 className='text-2xl font-bold text-center py-8'>Teams</h2>
+              <p className='text-center text-4xl font-bold'>$15/user/month</p>
               <p className='text-center text-gray-500'>Invest in Yourself</p>
               <div className='text-center font-medium'>
                   <p className='py-2 border-b mx-8 mt-8'>1000 tests per month</p>
