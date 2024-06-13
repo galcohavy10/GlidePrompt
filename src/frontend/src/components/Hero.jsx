@@ -25,7 +25,7 @@ const Hero = () => {
           </p>
           <ReactTyped
           className='md:text-5xl sm:text-4xl text-xl font-extralight fon md:pl-4 pl-2'
-            strings={['creates your system prompts.', 'compares LLM pricing.', 'compares LLM outputs.',]}
+            strings={['compares LLM pricing.', 'compares LLM outputs.', 'creates your system prompts.', ]}
             typeSpeed={50}
             backSpeed={30}
             loop
