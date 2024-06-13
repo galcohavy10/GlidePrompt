@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/backend/index.js",
-    "start-dev": "cd src/frontend && npm start && cd ..",
+    "start-dev": "concurrently \"cd src/frontend && npm run start\" \"cd src/backend && npm run start\"",
     "start-prod": "cd src/frontend && npm run build && cd ../../ && node src/backend/index.js"
   },
   "author": "",
@@ -21,5 +21,8 @@
     "openai": "^4.32.1",
     "replicate": "^0.29.1"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
