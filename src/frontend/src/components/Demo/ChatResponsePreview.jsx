@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import ExpandedView from './ExpandedChatResponse';
+// import ExpandedView from './ExpandedChatResponse';
 
 function ChatResponsePreview({ title, text, Logo }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxCharLength = 150; // Adjust this number as needed
+  const [maxCharLength, setMaxCharLength] = useState(100);
 
   const toggleView = () => {
     setIsExpanded(!isExpanded);
+    if (isExpanded) {
+      setMaxCharLength(150);
+    } else {
+      setMaxCharLength(10000);
+    }
   };
 
-  // Truncate text if it exceeds the maximum character length
-  const displayText = `${text.substring(0, maxCharLength)}...`;
+  // Truncate text if it exceeds the maximum character length, but add a ... if it's truncated
+  const displayText = text.length > maxCharLength ? text.slice(0, maxCharLength) + '...' : text;
 
   return (
-    <div className="flex p-4 my-4 mx-auto max-w-md bg-white rounded-lg border border-gray-200 shadow-md items-center space-x-4 animate-fadeIn">
+    <div className="flex p-4 my-4 mx-auto max-w-md bg-veryLightGray rounded-lg border border-gray-200 shadow-md items-center space-x-4 animate-fadeIn">
       {Logo && <Logo className="w-10 h-10 flex-shrink-0" />}
       <div className="flex flex-col flex-grow cursor-pointer" onClick={toggleView}>
         <h2 className="text-lg font-bold text-gray-900">{title}</h2>
@@ -22,14 +27,6 @@ function ChatResponsePreview({ title, text, Logo }) {
           <button className="mt-2 text-blue-500 text-sm">Show More</button>
         )}
       </div>
-      {isExpanded && (
-        <ExpandedView
-          title={title}
-          text={text}
-          Logo={Logo}
-          onClose={toggleView}
-        />
-      )}
     </div>
   );
 }

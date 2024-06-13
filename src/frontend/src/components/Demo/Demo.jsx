@@ -115,7 +115,7 @@ function Demo() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
        <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+        <div className="w-full max-w-2xl p-10 space-y-6 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
           <div className="flex flex-col items-center">
             <Lottie options={defaultOptions} height={250} width={300} />
             <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
@@ -139,7 +139,7 @@ function Demo() {
           <h1 className="text-3xl font-bold text-gray-800">Test all the models, in 1 place</h1>
         </div>
       <DemoStatusBar currentStep={currentStep} />
-      <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+      <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
         <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
         <div>
           <textarea

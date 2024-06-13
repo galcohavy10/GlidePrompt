@@ -15,10 +15,10 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   const [inputText, setInputText] = useState('');
   const [systemMessage, setSystemMessage] = useState('');
   const [isEditingSystemMessage, setIsEditingSystemMessage] = useState(true);
-  const [openAIResponse, setOpenAIResponse] = useState('');
-  const [claudeResponse, setClaudeResponse] = useState('');
-  const [replicateResponse, setReplicateResponse] = useState('');
-  const [geminiResponse, setGeminiResponse] = useState('');
+  const [openAIResponse, setOpenAIResponse] = useState('Ask me anything!');
+  const [claudeResponse, setClaudeResponse] = useState('Ask me anything!');
+  const [replicateResponse, setReplicateResponse] = useState('Ask me anything!');
+  const [geminiResponse, setGeminiResponse] = useState('Ask me anything!');
 
    // Adjust the currentStep based on the systemMessage and isEditingSystemMessage states
   const currentStep = isEditingSystemMessage ? 2 : (systemMessage ? 3 : 1);
@@ -39,6 +39,11 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
   const handleEditSystemMessage = () => {
     setIsEditingSystemMessage(true);
+    //clear responses
+    setClaudeResponse('Ask me anything!');
+    setReplicateResponse('Ask me anything!');
+    setGeminiResponse('Ask me anything!');
+    setOpenAIResponse('Ask me anything!');
   };
 
     // Function to navigate back to the task editing state in Demo
@@ -149,8 +154,9 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
             <span className="text-purple-500 text-xs italic ml-2">tap to edit</span>  {/* Adjusted margin for better spacing */}
           </div>
 
+          <div className="w-2/3 flex justify-between">
 
-          <form onSubmit={handleSubmit} className="w-full max-w-2xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
+          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
             <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!
             </h1>
             {/* Subheading saying see which companies perform best for you, no vertical padding small */}
@@ -177,15 +183,15 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
             </button>
 
           </form>
+          <div className="w-1/2 overflow-y-scroll" style={{ maxHeight: '70vh' }}>
+          {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} />}
+          {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} />}
+          {replicateResponse && <ChatResponsePreview title="Replicate: Llama-3" text={replicateResponse} Logo={ReplicateIcon} />}
+          {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} />}
+        </div>
+        </div>
         </>
       )}
-
-      <div className="flex flex-wrap justify-center mt-8">
-        {openAIResponse && <ChatResponsePreview title="OpenAI Response" text={openAIResponse} Logo={ChatGPTIcon} />}
-        {claudeResponse && <ChatResponsePreview title="Claude Response" text={claudeResponse} Logo={ClaudeIcon} />}
-        {replicateResponse && <ChatResponsePreview title="Replicate: Llama-3 Response" text={replicateResponse} Logo={ReplicateIcon} />}
-        {geminiResponse && <ChatResponsePreview title="Gemini Response" text={geminiResponse} Logo={GeminiIcon} />}
-      </div>
     </div>
   );
 }
