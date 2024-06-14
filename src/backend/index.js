@@ -21,6 +21,15 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+// Middleware to redirect HTTP to HTTPS
+app.use((req, res, next) => {
+  if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
+      res.redirect(`https://${req.header('host')}${req.url}`);
+  } else {
+      next();
+  }
+});
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
