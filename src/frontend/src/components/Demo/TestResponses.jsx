@@ -161,7 +161,7 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
           setOpenAIResponse(resText);
           break;
         case 'Anthropic':
-          setClaudeResponse(response.map(message => message.text).join('\n'));
+          setClaudeResponse(resText.map(message => message.text).join('\n'));
           break;
         case 'Replicate':
           setReplicateResponse(resText);
