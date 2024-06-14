@@ -65,12 +65,14 @@ app.post('/chatWithAI', async (req, res) => {
 
   //route to sign up
   app.post('/signUp', async (req, res) => {
-    const { email, password } = req.body;
     try {
+      console.log(req.body);
+      const { email, password } = req.body;
       const user = await admin.auth().createUser({
         email,
         password,
       });
+      console.log('user created: ' + user.uid);
       res.json(user);
     } catch (error) {
       console.error(error);
