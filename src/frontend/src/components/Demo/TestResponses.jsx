@@ -223,12 +223,12 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
           <div className="w-2/3 flex justify-between">
 
-          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all">
+          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all mr-8">
             <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!
             </h1>
             {/* Subheading saying see which companies perform best for you, no vertical padding small */}
             <div className="text-lg text-center text-gray-700 flex justify-center items-center gap-4">
-              See which companies perform best for you!
+              See which model performs best for your prompt!
               <ChatGPTIcon style={{ width: '30px', height: '30px' }} />
               <ClaudeIcon style={{ width: '30px', height: '30px' }} />
               <ReplicateIcon style={{ width: '30px', height: '30px' }} />
@@ -246,8 +246,8 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
               wrap='soft'
             />
           <div className="flex space-x-4">
-            <button type="submit" className="flex-1 px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
-              Send
+          <button type="submit" className="flex-1 px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
+          Send
             </button>
             <button
               type="button"
@@ -266,7 +266,11 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
           </form>
           <div className="w-1/2 overflow-y-scroll" style={{ maxHeight: '70vh' }}>
-          {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} updateModelSelection={updateModelSelection} company={'OpenAI'} handleRerun={handleRerun}/>}
+          <div className="bg-gray-100 p-4 rounded-lg shadow mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">API Responses</h2>
+              <p className="text-sm text-gray-600">Scroll to see all. Select model, see pricing and redo to test again.</p>
+          </div>
+         {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} updateModelSelection={updateModelSelection} company={'OpenAI'} handleRerun={handleRerun}/>}
           {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} updateModelSelection={updateModelSelection} company={'Anthropic'} handleRerun={handleRerun}/>}
           {replicateResponse && <ChatResponsePreview title="Open Source" text={replicateResponse} Logo={ReplicateIcon} updateModelSelection={updateModelSelection} company={'Replicate'} handleRerun={handleRerun}/>}
           {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} updateModelSelection={updateModelSelection} company={'Google'} handleRerun={handleRerun}/>}

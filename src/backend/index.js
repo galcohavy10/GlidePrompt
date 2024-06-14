@@ -7,6 +7,10 @@ import { chatWithClaude } from './controllers/chatWithClaude.js';
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
 import { chatWithReplicate } from './controllers/chatWithReplicate.js';
 import { chatWithGemini } from './controllers/chatWithGemini.js';
+import { admin } from './firebaseAdmin.js'; // Import Firebase Admin
+
+// Import Firebase initialization
+import './firebase.js';
 
 dotenv.config();
 import path from 'path';
@@ -59,18 +63,39 @@ app.post('/chatWithAI', async (req, res) => {
     }
   });
 
-// app.post('/chatWithAI', (req, res) => {
-//     res.json({ message: 'Route is accessible' });
-// });
 
-// //for invalid routes
-// app.use((req, res) => {
-//     console.log('route the user requested: ', req.url)
-//     console.log('Req body: ', req.body)
-//     console.log('404: Page not found');
-//     res.status(404).send('404: Page not found');
-//     }
-// );
+  //probably wont need this using firebase auth on frontend.
+  //route to sign up
+  // app.post('/signUp', async (req, res) => {
+  //   try {
+  //     console.log(req.body);
+  //     const { email, password } = req.body;
+  //     const user = await admin.auth().createUser({
+  //       email,
+  //       password,
+  //     });
+  //     console.log('user created: ' + user.uid);
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // });
+
+  // //route to log in with id token
+  // app.post('/logIn', async (req, res) => {
+  //   const { idToken } = req.body;
+  //   try {
+  //     const decodedToken = await admin.auth().verifyIdToken(idToken);
+  //     const user = await admin.auth().getUser(decodedToken.uid);
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // });
+
+
 
 
 app.listen(port, () => {
