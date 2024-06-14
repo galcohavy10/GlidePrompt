@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        veryLightGray: '#fafafa' // This is a very light shade of gray, almost white
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
