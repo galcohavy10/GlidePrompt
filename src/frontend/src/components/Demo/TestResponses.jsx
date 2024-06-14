@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChatResponsePreview from './ChatResponsePreview'; 
-import { FaCogs, FaCheckSquare } from "react-icons/fa";
+import { FaCogs, FaCheckSquare, FaRegTrashAlt }from "react-icons/fa";
 import { DemoStatusBar } from './DemoStatusBar';
 
 
@@ -19,6 +19,22 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   const [claudeResponse, setClaudeResponse] = useState('Ask me anything!');
   const [replicateResponse, setReplicateResponse] = useState('Ask me anything!');
   const [geminiResponse, setGeminiResponse] = useState('Ask me anything!');
+
+
+  
+  const [selectedModels, setSelectedModels] = useState({
+    OpenAI: 'gpt-3.5-turbo',
+    Anthropic: 'claude-3-haiku-20240307',
+    Replicate: 'meta-llama-3-70b-instruct',
+    Google: 'gemini-pro'
+  });
+
+  const updateModelSelection = (company, model) => {
+    setSelectedModels(prev => ({
+      ...prev,
+      [company]: model
+    }));
+  };
 
    // Adjust the currentStep based on the systemMessage and isEditingSystemMessage states
   const currentStep = isEditingSystemMessage ? 2 : (systemMessage ? 3 : 1);
@@ -61,10 +77,10 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
     e.preventDefault();
     const messages = [{ role: "user", content: inputText }];
     const payloads = [
-      { company: 'OpenAI', modelName: 'gpt-3.5-turbo', messages: messages, systemMessage: systemMessage },
-      { company: 'Anthropic', modelName: 'claude-3-haiku-20240307', messages: messages, systemMessage: systemMessage },
-      { company: 'Replicate', modelName: 'meta/meta-llama-3-70b-instruct', messages: messages, systemMessage: systemMessage },
-      { company: 'Google', modelName: 'gemini-pro', messages: messages, systemMessage: systemMessage }
+      { company: 'OpenAI', modelName: selectedModels.OpenAI, messages: messages, systemMessage: systemMessage },
+      { company: 'Anthropic', modelName: selectedModels.Anthropic, messages: messages, systemMessage: systemMessage },
+      { company: 'Replicate', modelName: selectedModels.Replicate, messages: messages, systemMessage: systemMessage },
+      { company: 'Google', modelName: selectedModels.Google, messages: messages, systemMessage: systemMessage }
     ];
 
     payloads.forEach(payload => {
@@ -108,8 +124,57 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
           }
         });
     });
-    setInputText(''); // Clear the input after sending
   };
+
+  const handleRerun = async (company) => {
+    //set company response to loading
+    switch (company) {
+      case 'OpenAI':
+        setOpenAIResponse('Loading...');
+        break;
+      case 'Anthropic':
+        setClaudeResponse('Loading...');
+        break;
+      case 'Replicate':
+        setReplicateResponse('Loading...');
+        break;
+      case 'Google':
+        setGeminiResponse('Loading...');
+        break;
+      default:
+        console.error(`Error: Unsupported company ${company}`);
+    }
+    const payload = {
+      company: company,
+      modelName: selectedModels[company],
+      messages: [{ role: "user", content: inputText }],
+      systemMessage: systemMessage
+    };
+  
+    try {
+      const response = await axios.post('/chatWithAI', payload);
+      const resText = response.data.response;
+      switch (company) {
+        case 'OpenAI':
+          setOpenAIResponse(resText);
+          break;
+        case 'Anthropic':
+          setClaudeResponse(resText);
+          break;
+        case 'Replicate':
+          setReplicateResponse(resText);
+          break;
+        case 'Google':
+          setGeminiResponse(resText);
+          break;
+        default:
+          console.error(`Error: Unsupported company ${company}`);
+      }
+    } catch (error) {
+      console.error(`Error with ${company}: ${error.message}`);
+    }
+  };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
@@ -156,7 +221,7 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
           <div className="w-2/3 flex justify-between">
 
-          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
+          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all">
             <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!
             </h1>
             {/* Subheading saying see which companies perform best for you, no vertical padding small */}
@@ -178,16 +243,31 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
               rows={7}
               wrap='soft'
             />
-            <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
+          <div className="flex space-x-4">
+            <button type="submit" className="flex-1 px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
               Send
             </button>
+            <button
+              type="button"
+              onClick={() => inputText && setInputText('')}
+              className={`inline-flex items-center p-3 rounded-xl focus:outline-none focus:ring-4 transition transform active:scale-90 text-white ${
+                inputText ? "bg-gray-400 hover:bg-gray-700 focus:ring-gray-500" : "bg-gray-300 cursor-not-allowed"
+              }`}
+              disabled={!inputText}
+            >
+              <FaRegTrashAlt className="text-xl" />
+              <span className="ml-2">Clear</span>
+            </button>
+
+
+          </div>
 
           </form>
           <div className="w-1/2 overflow-y-scroll" style={{ maxHeight: '70vh' }}>
-          {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} />}
-          {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} />}
-          {replicateResponse && <ChatResponsePreview title="Replicate: Llama-3" text={replicateResponse} Logo={ReplicateIcon} />}
-          {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} />}
+          {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} updateModelSelection={updateModelSelection} company={'OpenAI'} handleRerun={handleRerun}/>}
+          {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} updateModelSelection={updateModelSelection} company={'Anthropic'} handleRerun={handleRerun}/>}
+          {replicateResponse && <ChatResponsePreview title="Open Source" text={replicateResponse} Logo={ReplicateIcon} updateModelSelection={updateModelSelection} company={'Replicate'} handleRerun={handleRerun}/>}
+          {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} updateModelSelection={updateModelSelection} company={'Google'} handleRerun={handleRerun}/>}
         </div>
         </div>
         </>
