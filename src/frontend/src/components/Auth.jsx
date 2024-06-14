@@ -1,6 +1,5 @@
 // src/components/Auth.jsx
 import React, { useEffect } from 'react';
-import { getAuth } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
@@ -11,7 +10,10 @@ const Auth = () => {
     const uiConfig = {
       signInSuccessUrl: '/', // Redirect to homepage after sign-in
       signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          signInMethod: firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD
+        },
       ],
       tosUrl: '/terms-of-service',
       privacyPolicyUrl: '/privacy-policy'

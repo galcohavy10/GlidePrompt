@@ -63,35 +63,37 @@ app.post('/chatWithAI', async (req, res) => {
     }
   });
 
-  //route to sign up
-  app.post('/signUp', async (req, res) => {
-    try {
-      console.log(req.body);
-      const { email, password } = req.body;
-      const user = await admin.auth().createUser({
-        email,
-        password,
-      });
-      console.log('user created: ' + user.uid);
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
 
-  //route to log in with id token
-  app.post('/logIn', async (req, res) => {
-    const { idToken } = req.body;
-    try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      const user = await admin.auth().getUser(decodedToken.uid);
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
+  //probably wont need this using firebase auth on frontend.
+  //route to sign up
+  // app.post('/signUp', async (req, res) => {
+  //   try {
+  //     console.log(req.body);
+  //     const { email, password } = req.body;
+  //     const user = await admin.auth().createUser({
+  //       email,
+  //       password,
+  //     });
+  //     console.log('user created: ' + user.uid);
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // });
+
+  // //route to log in with id token
+  // app.post('/logIn', async (req, res) => {
+  //   const { idToken } = req.body;
+  //   try {
+  //     const decodedToken = await admin.auth().verifyIdToken(idToken);
+  //     const user = await admin.auth().getUser(decodedToken.uid);
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // });
 
 
 

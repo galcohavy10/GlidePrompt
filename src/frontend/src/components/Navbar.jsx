@@ -26,7 +26,7 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('faq')}>FAQ</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('about')}>About</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('contact')}>Contact</li>
-          <li className='p-4 cursor-pointer bg-veryLightGray text-black rounded' onClick={() => setShowAuth(true)}>Sign Up</li>
+          <li className='p-4 cursor-pointer bg-veryLightGray text-black rounded' onClick={() => setShowAuth(true)}>Sign In</li>
         </ul>
         <div onClick={handleNav} className='block md:hidden cursor-pointer'>
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
