@@ -15,6 +15,7 @@ import TOS from './components/TOS';
 // import SocialProof from './components/SocialProof';
 import axios from 'axios';
 
+
 function App() {
   useEffect(() => {
     // Setting the Axios base URL at the top level of the application

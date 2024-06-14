@@ -7,6 +7,10 @@ import { chatWithClaude } from './controllers/chatWithClaude.js';
 import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
 import { chatWithReplicate } from './controllers/chatWithReplicate.js';
 import { chatWithGemini } from './controllers/chatWithGemini.js';
+import { admin } from './firebaseAdmin.js'; // Import Firebase Admin
+
+// Import Firebase initialization
+import './firebase.js';
 
 dotenv.config();
 import path from 'path';
@@ -20,15 +24,6 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.use(cors());
-
-// Middleware to redirect HTTP to HTTPS
-app.use((req, res, next) => {
-  if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
-      res.redirect(`https://${req.header('host')}${req.url}`);
-  } else {
-      next();
-  }
-});
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));
@@ -68,18 +63,35 @@ app.post('/chatWithAI', async (req, res) => {
     }
   });
 
-// app.post('/chatWithAI', (req, res) => {
-//     res.json({ message: 'Route is accessible' });
-// });
+  //route to sign up
+  app.post('/signUp', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await admin.auth().createUser({
+        email,
+        password,
+      });
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
-// //for invalid routes
-// app.use((req, res) => {
-//     console.log('route the user requested: ', req.url)
-//     console.log('Req body: ', req.body)
-//     console.log('404: Page not found');
-//     res.status(404).send('404: Page not found');
-//     }
-// );
+  //route to log in with id token
+  app.post('/logIn', async (req, res) => {
+    const { idToken } = req.body;
+    try {
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
+      const user = await admin.auth().getUser(decodedToken.uid);
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
 
 
 app.listen(port, () => {
