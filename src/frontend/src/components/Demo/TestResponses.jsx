@@ -25,8 +25,8 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   const [selectedModels, setSelectedModels] = useState({
     OpenAI: 'gpt-3.5-turbo',
     Anthropic: 'claude-3-haiku-20240307',
-    Replicate: 'meta-llama-3-70b-instruct',
-    Google: 'gemini-pro'
+    Replicate: 'meta/llama-2-13b',
+    Google: 'gemini-1.0-pro'
   });
 
   const updateModelSelection = (company, model) => {
@@ -127,31 +127,33 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   };
 
   const handleRerun = async (company) => {
-    //set company response to loading
-    switch (company) {
-      case 'OpenAI':
-        setOpenAIResponse('Loading...');
-        break;
-      case 'Anthropic':
-        setClaudeResponse('Loading...');
-        break;
-      case 'Replicate':
-        setReplicateResponse('Loading...');
-        break;
-      case 'Google':
-        setGeminiResponse('Loading...');
-        break;
-      default:
-        console.error(`Error: Unsupported company ${company}`);
-    }
-    const payload = {
-      company: company,
-      modelName: selectedModels[company],
-      messages: [{ role: "user", content: inputText }],
-      systemMessage: systemMessage
-    };
   
     try {
+
+        //set company response to loading
+        switch (company) {
+          case 'OpenAI':
+            setOpenAIResponse('Loading...');
+            break;
+          case 'Anthropic':
+            setClaudeResponse('Loading...');
+            break;
+          case 'Replicate':
+            setReplicateResponse('Loading...');
+            break;
+          case 'Google':
+            setGeminiResponse('Loading...');
+            break;
+          default:
+            console.error(`Error: Unsupported company ${company}`);
+        }
+        const payload = {
+          company: company,
+          modelName: selectedModels[company],
+          messages: [{ role: "user", content: inputText }],
+          systemMessage: systemMessage
+        };
+
       const response = await axios.post('/chatWithAI', payload);
       const resText = response.data.response;
       switch (company) {
@@ -159,7 +161,7 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
           setOpenAIResponse(resText);
           break;
         case 'Anthropic':
-          setClaudeResponse(resText);
+          setClaudeResponse(response.map(message => message.text).join('\n'));
           break;
         case 'Replicate':
           setReplicateResponse(resText);
