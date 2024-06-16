@@ -26,7 +26,7 @@ const Cards = () => {
               <p className='text-center text-gray-500'>Get a Taste</p>
               <div className='text-center font-medium'>
                   <p className='py-2 border-b mx-8 mt-8'>100 tests per month</p>
-                  <p className='py-2 border-b mx-8'>1000 total queries</p>
+                  <p className='py-2 border-b mx-8'>Access to Founder</p>
               </div>
               <a href="https://buy.stripe.com/aEU03igXv7955Ve6or" rel="noopener noreferrer" className="block w-full text-center">
                   <button className='bg-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Buy Now</button>
@@ -39,8 +39,9 @@ const Cards = () => {
               <p className='text-center text-4xl font-bold'>$15/user/month</p>
               <p className='text-center text-gray-500'>Invest in Yourself</p>
               <div className='text-center font-medium'>
-                  <p className='py-2 border-b mx-8 mt-8'>1000 tests per month</p>
-                  <p className='py-2 border-b mx-8'>10,000 total queries</p>
+                  <p className='py-2 border-b mx-8 mt-8'>100 tests per month</p>
+                  <p className='py-2 border-b mx-8'>24/7 Access to Founder</p>
+                  <p className='py-2 border-b mx-8'>Priority on Feature Requests</p>
               </div>
               <a href="https://buy.stripe.com/bIY7vKdLj3WTerKfZ2" rel="noopener noreferrer" className="block w-full text-center">
               <button className='bg-black text-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Buy Now</button>

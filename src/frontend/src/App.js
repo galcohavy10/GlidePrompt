@@ -8,7 +8,7 @@ import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import Newsletter from './components/Newsletter';
 import Demo from './components/Demo/Demo'; 
-import Roadmap from './components/Roadmap';
+// import Roadmap from './components/Roadmap';
 import FAQ from './components/FAQ';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -41,14 +41,6 @@ function App() {
         <Newsletter />
         <Cards />
         {/* <SocialProof /> */}
-      </>
-    )
-  }
-  {
-    currentPage === 'roadmap' && (
-      <>
-        <Roadmap />
-        <Newsletter />
       </>
     )
   }

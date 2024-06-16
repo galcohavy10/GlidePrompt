@@ -23,7 +23,7 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
         />
         <ul className='hidden md:flex'>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('home')}>Home</li>
-          <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li>
+          {/* <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li> */}
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('faq')}>FAQ</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('about')}>About</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('contact')}>Contact</li>
@@ -40,7 +40,7 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
             onClick={() => setCurrentPage('home')}
           />
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('home')}>Home</li>
-          <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li>
+          {/* <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li> */}
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('faq')}>FAQ</li>
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('about')}>About</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('contact')}>Contact</li>
