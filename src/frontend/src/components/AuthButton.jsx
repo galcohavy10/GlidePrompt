@@ -9,7 +9,7 @@ const AuthButton = ({ setShowAuth }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser); // Listen for auth changes
         return () => unsubscribe(); // Cleanup subscription
-    }, []);
+    }, [auth]);
 
     const handleAuthAction = () => {
         setShowAuth(true);  // Trigger to show authentication modal
