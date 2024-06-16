@@ -17,7 +17,7 @@ const Profile = ({ user }) => {
     <div className="container mx-auto mt-4 p-4">
       <h1 className="text-lg font-bold mb-4">Welcome, {user.displayName || "User"}!</h1>
       <button onClick={handleLogout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        Logout
+        Log Out
       </button>
     </div>
   );
