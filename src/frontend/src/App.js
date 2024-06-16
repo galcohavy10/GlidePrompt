@@ -1,3 +1,5 @@
+import './firebase';  // This ensures Firebase is initialized first
+
 import React, { useState, useEffect } from 'react';
 import Analytics from './components/Analytics';
 import Cards from './components/Cards';
