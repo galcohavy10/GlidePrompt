@@ -8,6 +8,7 @@ import { chatWithOpenAI } from './controllers/chatWithOpenAI.js';
 import { chatWithReplicate } from './controllers/chatWithReplicate.js';
 import { chatWithGemini } from './controllers/chatWithGemini.js';
 import { admin } from './firebaseAdmin.js'; // Import Firebase Admin
+import { subscribeEmail } from './controllers/subscribeEmail.js';
 
 // Import Firebase initialization
 import './firebase.js';
@@ -62,6 +63,18 @@ app.post('/chatWithAI', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+app.post('/subscribeEmail', async (req, res) => {
+  console.log(req.body);
+    const { email } = req.body;
+    try {
+        await subscribeEmail(email);
+        res.status(200).send('Email subscribed successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
 
 
   //probably wont need this using firebase auth on frontend.

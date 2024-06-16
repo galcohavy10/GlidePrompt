@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+//get a check mark and an x mark for feedback
+import { FaCheckCircle } from 'react-icons/fa';
+import { FaCircleXmark } from "react-icons/fa6";
+
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
@@ -6,15 +11,9 @@ const Newsletter = () => {
 
   const handleSubmit = async () => {
     try {
-        const response = await fetch('/user/subscribeEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: email }),
-        });
+        const response = await axios.post('/subscribeEmail', { email });
 
-        if (response.ok) {
+        if (response.status === 200) {
             setFeedback('success');
             setEmail('');
         } else {
@@ -22,11 +21,12 @@ const Newsletter = () => {
         }
     } catch (error) {
         setFeedback('error');
+        console.error('Newsletter subscription error:', error);
     }
     setTimeout(() => {
         setFeedback(null);
-    }, 5000); //5 seconds of showing the feedback to the user
-};
+    }, 3000); // Reset feedback after 3 seconds
+  };
 
 
   return (
@@ -34,9 +34,9 @@ const Newsletter = () => {
       <div className='max-w-[1240px] mx-auto grid lg:grid-cols-3'>
         <div className='lg:col-span-2 my-4'>
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
-            Want to talk directly to the founder?
+            Want to suggest a new feature? Report a bug?
           </h1>
-          <p>Suggest a feature or leave feedback, but be nice!</p>
+          <p>My email is gal@glideprompt.com, but be nice!</p>
         </div>
         <div className='my-4'>
           <div className='flex flex-col sm:flex-row items-center justify-between w-full'>
@@ -53,11 +53,23 @@ const Newsletter = () => {
             >
              Let's Talk
             </button>
-            {feedback === 'success' && <div style={{ padding: '10px', animation: 'fadeInOut 5s' }}>✔️</div>}
-            {feedback === 'error' && <div style={{ padding: '10px', animation: 'fadeInOut 5s' }}>❌</div>}
+            {feedback === 'success' && (
+              <div className='text-green-500 text-3xl animate-bounce m-3'>
+                <FaCheckCircle />
+              </div>
+            )}
+            {feedback === 'error' && (
+              <div className='text-red-500 text-3xl animate-bounce m-3'>
+                <FaCircleXmark />
+              </div>
+            )}
           </div>
           <p>
-            I will not spam or share your email, this is purely to talk to you directly. 
+            {/* write the error here for a bit */}
+            {feedback === 'success' && 'Thank you for subscribing!'}
+            {feedback === 'error' && 'Something went wrong. Please try again.'}
+            {feedback === null && 'You can also sign up to hear from me here.'}
+            
           </p>
 
         </div>

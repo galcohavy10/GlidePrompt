@@ -1,31 +1,32 @@
-// src/components/Auth.jsx
-import React, { useEffect } from 'react';
-import firebase from 'firebase/compat/app';
-import * as firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
-import { auth } from '../firebase';
+// Auth.jsx
+import React, { useEffect, useState } from 'react';
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import Signup from './Signup';
+import Profile from './Profile';
 
 const Auth = () => {
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+
   useEffect(() => {
-    const uiConfig = {
-      signInSuccessUrl: '/', // Redirect to homepage after sign-in
-      signInOptions: [
-        {
-          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          signInMethod: firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD
-        },
-      ],
-      tosUrl: '/terms-of-service',
-      privacyPolicyUrl: '/privacy-policy'
-    };
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
-    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
-    ui.start('#firebaseui-auth-container', uiConfig);
-  }, []);
+  const handleAuthChange = (user) => {
+    setUser(user);
+  };
 
-  return (
-    <div id="firebaseui-auth-container"></div>
-  );
+  if (!user) {
+    return (
+      <div>
+        <Signup onAuthChange={handleAuthChange} />
+      </div>
+    );
+  }
+  return <Profile user={user} />;
 };
 
 export default Auth;

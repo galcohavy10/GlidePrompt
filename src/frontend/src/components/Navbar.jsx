@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import logo from '../assets/logo.png';
 import Auth from './Auth';
+import AuthButton from './AuthButton';
 
 const Navbar = ({ currentPage, setCurrentPage }) => {
   const [nav, setNav] = useState(false);
@@ -22,12 +23,12 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
         />
         <ul className='hidden md:flex'>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('home')}>Home</li>
-          <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li>
+          {/* <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li> */}
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('faq')}>FAQ</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('about')}>About</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('contact')}>Contact</li>
-          <li className='p-4 cursor-pointer bg-veryLightGray text-black rounded' onClick={() => setShowAuth(true)}>Sign In</li>
-        </ul>
+          <AuthButton setShowAuth={setShowAuth} />
+          </ul>
         <div onClick={handleNav} className='block md:hidden cursor-pointer'>
           {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
         </div>
@@ -39,12 +40,13 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
             onClick={() => setCurrentPage('home')}
           />
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('home')}>Home</li>
-          <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li>
+          {/* <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('roadmap')}>Roadmap</li> */}
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('faq')}>FAQ</li>
           <li className='p-4 border-b border-gray-600 cursor-pointer' onClick={() => setCurrentPage('about')}>About</li>
           <li className='p-4 cursor-pointer' onClick={() => setCurrentPage('contact')}>Contact</li>
-          <li className='p-4 cursor-pointer bg-veryLightGray text-black rounded' onClick={() => setShowAuth(true)}>Sign Up</li>
-        </ul>
+          <AuthButton setShowAuth={setShowAuth} />
+
+          </ul>
       </div>
 
       {showAuth && (
