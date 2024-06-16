@@ -1,50 +1,72 @@
-// src/components/Auth.jsx
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { onAuthStateChanged, signOut, EmailAuthProvider } from 'firebase/auth';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import { auth } from '../firebase';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const Auth = () => {
   const [user, setUser] = useState(null);
+  const [ui, setUi] = useState(null); // Store FirebaseUI instance in state
 
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      setUser(user);
-    });
+    if (!ui) {
+      const firebaseUI = new firebaseui.auth.AuthUI(auth);
+      setUi(firebaseUI);
+    }
 
     const uiConfig = {
       signInSuccessUrl: '/',
       signInOptions: [
         {
-          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          requireDisplayName: false,
+          provider: EmailAuthProvider.PROVIDER_ID,
+          signInMethod: EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD
         },
       ],
       callbacks: {
-        signInSuccessWithAuthResult: () => false // Avoid redirects after sign-in
+        signInSuccessWithAuthResult: () => false
       },
       tosUrl: '/terms-of-service',
-      privacyPolicyUrl: '/privacy-policy',
+      privacyPolicyUrl: '/privacy-policy'
     };
 
-    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
-    if (!user) { // Initialize the FirebaseUI Widget using Firebase auth if there's no user signed in already.
-      ui.start('#firebaseui-auth-container', uiConfig);
-    }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (!currentUser && ui) {
+        ui.start('#firebaseui-auth-container', uiConfig);
+      }
+    });
 
     return () => {
-      unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-      ui.delete(); // Delete the FirebaseUI instance when the component unmounts.
+      unsubscribe();
+      if (ui) {
+        ui.delete();
+      }
     };
-  }, [user]); // Re-run the effect when the user state changes.
+  }, [ui]);
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("User logged out");
+      })
+      .catch((error) => {
+        console.error("Logout Error:", error);
+      });
+  };
 
   return (
     <div>
       {user ? (
-        <div>
-          Successfully signed in! Hi, {user.displayName || "there"}!
+        <div className="flex items-center text-green-500">
+          <FaCheckCircle className="mr-2" />
+          You are logged in! Hi{user.displayName ? ", " + user.displayName : " there"}!
+          <button 
+            onClick={handleLogout} 
+            className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer"
+          >
+            Logout
+          </button>
         </div>
       ) : (
         <div id="firebaseui-auth-container"></div>
