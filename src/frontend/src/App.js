@@ -1,6 +1,8 @@
 import './firebase';  // This ensures Firebase is initialized first
 
 import React, { useState, useEffect } from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import Analytics from './components/Analytics';
 import Cards from './components/Cards';
 import Footer from './components/Footer';
@@ -18,6 +20,10 @@ import TOS from './components/TOS';
 import axios from 'axios';
 
 
+// Initialize Stripe outside of the component to avoid re-creating the Stripe object on every render
+const stripePromise = loadStripe(process.env.NODE_ENV === 'development' ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+console.log('stripe promise:', stripePromise);
+
 function App() {
   useEffect(() => {
     // Setting the Axios base URL at the top level of the application
@@ -30,6 +36,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home'); //so navbar and footer can control navigation
 
   return (
+    <Elements stripe={stripePromise}> {/* This ensures the Stripe Elements provider wraps your components */}
     <div>
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
   {
@@ -85,6 +92,7 @@ function App() {
 
       <Footer currentPage={currentPage} setCurrentPage={setCurrentPage}/>
     </div>
+    </Elements>
   );
 }
 

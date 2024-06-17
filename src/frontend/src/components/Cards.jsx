@@ -1,6 +1,8 @@
 import React from 'react';
 import Single from '../assets/single.png'
 import Triple from '../assets/triple.png'
+import CheckoutButton from './CheckoutButton';
+
 
 const Cards = () => {
   return (
@@ -28,9 +30,7 @@ const Cards = () => {
                   <p className='py-2 border-b mx-8 mt-8'>100 tests per month</p>
                   <p className='py-2 border-b mx-8'>Access to Founder</p>
               </div>
-              <a href="https://buy.stripe.com/aEU03igXv7955Ve6or" rel="noopener noreferrer" className="block w-full text-center">
-                  <button className='bg-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Select</button>
-              </a>
+              <CheckoutButton plan="pro" />
           </div>
 
           <div className='w-full md:w-1/2 lg:w-1/3 xl:w-1/4 shadow-xl  bg-gray-100 flex flex-col p-4 rounded-lg hover:scale-105 duration-300' style={{ maxWidth: "300px" }}>
@@ -43,9 +43,7 @@ const Cards = () => {
                   <p className='py-2 border-b mx-8'>24/7 Access to Founder</p>
                   <p className='py-2 border-b mx-8'>Priority on Feature Requests</p>
               </div>
-              <a href="https://buy.stripe.com/bIY7vKdLj3WTerKfZ2" rel="noopener noreferrer" className="block w-full text-center">
-              <button className='bg-black text-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Select</button>
-              </a>
+              <CheckoutButton plan="teams" />
           </div>
       </div>
     </div>
