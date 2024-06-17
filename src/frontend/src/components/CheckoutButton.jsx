@@ -42,6 +42,7 @@ const CheckoutButton = ({ plan }) => {
 
             // Redirect to Stripe checkout
             const result = await stripe.redirectToCheckout({ sessionId });
+            console.log(result);
             if (result.error) {
                 alert(result.error.message);
             }

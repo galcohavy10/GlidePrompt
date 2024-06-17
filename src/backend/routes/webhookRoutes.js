@@ -25,8 +25,10 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
 
     // Handle the event
     switch (stripeEvent.type) {
-      case 'payment_intent.succeeded':
+      case 'checkout.session.completed':
         const session = stripeEvent.data.object;
+        // Log metadata to debug
+        console.log('session metadata:', session.metadata);
 
         // Fulfill the purchase...
         const userRef = admin.firestore().collection('users').doc(session.metadata.firebaseUID);
