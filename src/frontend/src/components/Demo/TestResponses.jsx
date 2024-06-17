@@ -72,6 +72,11 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
           setCredits(docSnap.data().creditsRemaining);
         }
       });
+    } else {
+      const storedCredits = localStorage.getItem('guestUserCredits');
+      if (storedCredits) {
+        setCredits(storedCredits);
+      }
     }
   }, [user]);
 
@@ -84,6 +89,8 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
       updateDoc(userRef, {
         creditsRemaining: newCredits
       });
+    } else {
+      localStorage.setItem('guestUserCredits', newCredits)
     }
 
     // Trigger notification
@@ -113,13 +120,7 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
     };
 
   const handleSubmit = async (e) => {
-    if (credits > 0) {
-      console.log('Deducting credit');
-      deductCredit();
-    } else {
-      triggerNotification('You have no credits remaining. Please upgrade your plan.');
-      return;
-    }
+
     setClaudeResponse('Loading...');
     setReplicateResponse('Loading...');
     setGeminiResponse('Loading...');
@@ -132,6 +133,13 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
       { company: 'Replicate', modelName: selectedModels.Replicate, messages: messages, systemMessage: systemMessage },
       { company: 'Google', modelName: selectedModels.Google, messages: messages, systemMessage: systemMessage }
     ];
+    if (credits > 0) {
+      console.log('Deducting credit');
+      deductCredit();
+    } else {
+      triggerNotification('You have no credits remaining. Please upgrade your plan.');
+      return;
+    }
 
     payloads.forEach(payload => {
       axios.post('/chatWithAI', payload)
@@ -206,6 +214,16 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
       const response = await axios.post('/chatWithAI', payload);
       const resText = response.data.response;
+
+      //deduct a credit
+      if (credits > 0) {
+        console.log('Deducting credit');
+        deductCredit();
+      } else {
+        triggerNotification('You have no credits remaining. Please upgrade your plan.');
+        return;
+      }
+
       switch (company) {
         case 'OpenAI':
           setOpenAIResponse(resText);

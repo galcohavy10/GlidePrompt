@@ -29,7 +29,7 @@ const Cards = () => {
                   <p className='py-2 border-b mx-8'>Access to Founder</p>
               </div>
               <a href="https://buy.stripe.com/aEU03igXv7955Ve6or" rel="noopener noreferrer" className="block w-full text-center">
-                  <button className='bg-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Buy Now</button>
+                  <button className='bg-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Select</button>
               </a>
           </div>
 
@@ -44,7 +44,7 @@ const Cards = () => {
                   <p className='py-2 border-b mx-8'>Priority on Feature Requests</p>
               </div>
               <a href="https://buy.stripe.com/bIY7vKdLj3WTerKfZ2" rel="noopener noreferrer" className="block w-full text-center">
-              <button className='bg-black text-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Buy Now</button>
+              <button className='bg-black text-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3'>Select</button>
               </a>
           </div>
       </div>

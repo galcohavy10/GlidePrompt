@@ -19,7 +19,7 @@ const CardsMini = () => {
               <h2 className='text-lg font-bold text-center my-2'>Pro</h2>
               <p className='text-center text-xl font-bold'>$10/month</p>
               <ul className='text-center text-sm my-2'>
-                <li>100 credits per month</li>
+                <li>100 credits/mo</li>
               </ul>
               <a href="https://buy.stripe.com/aEU03igXv7955Ve6or" rel="noopener noreferrer" className="block w-full text-center mt-2">
                   <button className='bg-[#00df9a] w-full rounded-md my-2 py-2'>Select</button>
@@ -31,6 +31,7 @@ const CardsMini = () => {
               <h2 className='text-lg font-bold text-center my-2'>Teams</h2>
               <p className='text-center text-xl font-bold'>$25/user/mo</p>
               <ul className='text-center text-sm my-2'>
+                <li>300 credits/mo</li>
                 <li>24/7 Support</li>
               </ul>
               <a href="https://buy.stripe.com/bIY7vKdLj3WTerKfZ2" rel="noopener noreferrer" className="block w-full text-center mt-2">
