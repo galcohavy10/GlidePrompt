@@ -23,7 +23,7 @@ const CheckoutButton = ({ plan }) => {
 
         // Ensure user is logged in
         if (!user) {
-            alert('Please sign in to upgrade your plan.');
+            alert('Please sign in to upgrade your plan. The button is at top of page.');
             return;
         }
 
@@ -52,11 +52,8 @@ const CheckoutButton = ({ plan }) => {
         }
     };
 
-    // Disable button if Stripe or user is not ready
-    const isDisabled = !stripe || !user;
-
     return (
-        <button onClick={handleClick} disabled={isDisabled} className="bg-[#00df9a] w-full rounded-md font-medium my-6 px-6 py-3">
+        <button onClick={handleClick} className={`w-full rounded-md font-medium my-6 px-6 py-3 ${plan === 'pro' ? 'bg-[#00df9a] text-black' : 'bg-black text-[#00df9a]'}`}>
             Select
         </button>
     );

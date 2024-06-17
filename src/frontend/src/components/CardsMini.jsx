@@ -1,6 +1,7 @@
 import React from 'react';
 import Single from '../assets/single.png';
 import Triple from '../assets/triple.png';
+import CheckoutButton from './CheckoutButton';
 
 const CardsMini = () => {
   return (
@@ -21,9 +22,8 @@ const CardsMini = () => {
               <ul className='text-center text-sm my-2'>
                 <li>100 credits/mo</li>
               </ul>
-              <a href="https://buy.stripe.com/aEU03igXv7955Ve6or" rel="noopener noreferrer" className="block w-full text-center mt-2">
-                  <button className='bg-[#00df9a] w-full rounded-md my-2 py-2'>Select</button>
-              </a>
+              <CheckoutButton plan="pro" />
+
           </div>
 
           <div className='shadow bg-gray-100 flex flex-col p-3 rounded hover:scale-105 duration-300' style={{ width: "200px" }}>
@@ -34,9 +34,7 @@ const CardsMini = () => {
                 <li>300 credits/mo</li>
                 <li>24/7 Support</li>
               </ul>
-              <a href="https://buy.stripe.com/bIY7vKdLj3WTerKfZ2" rel="noopener noreferrer" className="block w-full text-center mt-2">
-                  <button className='bg-black text-[#00df9a] w-full rounded-md my-2 py-2'>Select</button>
-              </a>
+              <CheckoutButton plan="teams" />
           </div>
         </div>
       </div>
