@@ -1,5 +1,5 @@
 import './firebase';  // This ensures Firebase is initialized first
-
+import { analytics, logEvent } from './firebase'; // Import analytics and logEvent
 import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -31,9 +31,21 @@ function App() {
     const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
     axios.defaults.baseURL = baseURL;
     console.log('axios base URL:', axios.defaults.baseURL);
+
+    // log page view on initial load
+    logEvent(analytics, 'page_view', {
+      page_path: window.location.pathname,
+    });
   }, []);
 
   const [currentPage, setCurrentPage] = useState('home'); //so navbar and footer can control navigation
+
+  // Log page views on currentPage change
+  useEffect(() => {
+    logEvent(analytics, 'page_view', {
+      page_path: currentPage,
+    });
+  }, [currentPage]);
 
   return (
     <Elements stripe={stripePromise}> {/* This ensures the Stripe Elements provider wraps your components */}

@@ -8,6 +8,8 @@ import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase'; // Ensure this path is correct
 import { FaLock } from "react-icons/fa";
+//get firebase analytics
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 function Demo() {
   const [userTask, setUserTask] = useState('');
@@ -18,6 +20,7 @@ function Demo() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const auth = getAuth();
+  const analytics = getAnalytics();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -103,6 +106,15 @@ function Demo() {
   };
 
   const getSystemPrompt = async (task) => {
+    // Log the event to Firebase Analytics
+    try {
+      console.log('Logging event to Firebase Analytics + ' + task);
+      await logEvent(analytics, 'task_option_selected', {
+        task: userTask,
+      });
+    } catch (error) {
+      console.error('Error logging event to Firebase Analytics:', error);
+    }
     setIsLoading(true);
     const message = {
       role: "user",
@@ -140,6 +152,15 @@ function Demo() {
   const handleTaskSubmit = async (event) => {
     event.preventDefault();
     setCurrentStep(1); // Move to the next step
+    // Log the event to Firebase Analytics
+    try {
+      console.log('Logging event to Firebase Analytics + ' + userTask);
+      await logEvent(analytics, 'task_option_selected', {
+        task: userTask,
+      });
+    } catch (error) {
+      console.error('Error logging event to Firebase Analytics:', error);
+    }
     await getSystemPrompt(userTask);
   };
 
