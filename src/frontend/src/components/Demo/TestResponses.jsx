@@ -5,7 +5,7 @@ import { FaCogs, FaCheckSquare, FaRegTrashAlt }from "react-icons/fa";
 import { DemoStatusBar } from './DemoStatusBar';
 
 import { getAuth } from 'firebase/auth';  // Import getAuth if needed
-import { doc, getDoc, updateDoc } from 'firebase/firestore';  // Firestore methods
+import { doc, collection, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';  // Firestore methods
 import { db } from '../../firebase';  // Import your Firebase config
 
 // Import SVGs as React components
@@ -121,6 +121,8 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
   const handleSubmit = async (e) => {
 
+
+
     setClaudeResponse('Loading...');
     setReplicateResponse('Loading...');
     setGeminiResponse('Loading...');
@@ -140,6 +142,38 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
       triggerNotification('You have no credits remaining. Please upgrade your plan.');
       return;
     }
+
+    // Correct way to generate a new document ID
+    console.log('Generating new document ID for prompt test...');
+    const promptTestRef = doc(collection(db, "PromptTests"));
+
+    const promptTest = {
+      inputText: inputText,
+      systemMessage: systemMessage,
+      task: initialTask,
+      timestamp: new Date().toISOString(),
+      modelsSelected: selectedModels,
+      user: user ? user.uid : 'guestUser'
+    };
+
+    try {
+    // Save the new prompt test using the correct reference
+    await setDoc(promptTestRef, promptTest);
+
+    // Update the user's document to include the new prompt test ID if there's a user
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        promptTests: arrayUnion(promptTestRef.id)
+      });
+    }
+    
+    } catch (error) {
+      console.error('Error saving prompt test:', error);
+    }
+
+
+    
 
     payloads.forEach(payload => {
       axios.post('/chatWithAI', payload)
