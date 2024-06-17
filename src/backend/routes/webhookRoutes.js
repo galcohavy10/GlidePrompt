@@ -32,7 +32,9 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
 
         // Fulfill the purchase...
         const userRef = admin.firestore().collection('users').doc(session.metadata.firebaseUID);
-        const priceId = session.display_items[0].price.id;
+        // Fetch the line items to get the price ID
+        const lineItems = await stripeInstance.checkout.sessions.listLineItems(session.id);
+        const priceId = lineItems.data[0].price.id;
 
         if (priceId === 'price_1PSez6HShG0VPpj5ebYW3WFm') {
           await userRef.update({
