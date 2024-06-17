@@ -21,7 +21,7 @@ const Hero = () => {
         </h1>
         <div className='flex justify-center items-center'>
           <p className='md:text-5xl sm:text-4xl text-xl font-extralight py-4'>
-            GlidePrompt
+            glideprompt
           </p>
           <ReactTyped
           className='md:text-5xl sm:text-4xl text-xl font-extralight fon md:pl-4 pl-2'

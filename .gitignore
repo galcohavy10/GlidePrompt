@@ -2,3 +2,5 @@
 node_modules/
 GlidePrompt.code-workspace
 serviceAccountKey.json
+*.txt
+*.log

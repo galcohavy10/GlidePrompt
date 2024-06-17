@@ -22,7 +22,8 @@
     "firebase-admin": "^12.1.1",
     "node-fetch": "^3.3.2",
     "openai": "^4.32.1",
-    "replicate": "^0.29.1"
+    "replicate": "^0.29.1",
+    "stripe": "^15.11.0"
   },
   "type": "module",
   "devDependencies": {

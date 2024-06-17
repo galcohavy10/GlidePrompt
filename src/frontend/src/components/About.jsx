@@ -12,7 +12,7 @@ return (
           The Story
         </p>
         <p className='text-xl font-medium p-2'>
-        Hi, I'm the creator of GlidePrompt. Here's the story. 
+        Hi, I'm the creator of glideprompt. Here's the story. 
         <br /> <br /> I was working on a project where I needed to generate prompts and test them on a host of different language models. I don't like the existing solutions because they're expensive and don't give me the use-case I want. Literally a big prompt playground and a place to collect evidence.
         <br /> <br /> So I freaking coded it.
         I like helping builders build and my vision is to have this hooked up to people's API keys so it's easy to use.

@@ -4,14 +4,29 @@ import TestResponses from './TestResponses';
 import { DemoStatusBar } from './DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
 import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase'; // Ensure this path is correct
+import { FaLock } from "react-icons/fa";
 
 function Demo() {
   const [userTask, setUserTask] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [taskOptions, setTaskOptions] = useState([]);
-
+  const [credits, setCredits] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+
+  const auth = getAuth();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   useEffect(() => {
     const allTasks = [
@@ -49,6 +64,24 @@ function Demo() {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      getDoc(userRef).then(docSnap => {
+        if (docSnap.exists()) {
+          setCredits(docSnap.data().creditsRemaining);
+        }
+      });
+    } else {
+      const storedCredits = localStorage.getItem('guestUserCredits');
+      if (storedCredits) {
+        setCredits(Number(storedCredits));
+      } else {
+        setCredits(0); // Initialize with 0 if no credits are found
+      }
+    }
+  }, [user]);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -121,6 +154,16 @@ function Demo() {
             <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (credits === 0 && !user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
+        <FaLock className="text-6xl text-red-500 mb-4" />
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">You have no remaining credits.</h1>
+        <p className="text-lg text-gray-700 mb-8">Scroll up and sign in to continue.</p>
       </div>
     );
   }

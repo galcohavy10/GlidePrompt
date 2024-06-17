@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
                     Last updated: October 6th, 2023
 
                     <br /><br />
-                    At GlidePrompt, we value your privacy and are committed to ensuring that your personal information is protected.
+                    At glideprompt, we value your privacy and are committed to ensuring that your personal information is protected.
 
                     <br /><br />
                     <b>1. Collection of Information</b>
@@ -26,7 +26,7 @@ const PrivacyPolicy = () => {
                     <br /><br />
                     <b>3. Sharing and Disclosure</b>
                     <br />
-                    GlidePrompt does not sell or rent your personal information to third parties. Your information is transmitted
+                    glideprompt does not sell or rent your personal information to third parties. Your information is transmitted
                     to OpenAI via their API: <a href="https://openai.com/enterprise-privacy" target="_blank" rel="noopener noreferrer">OpenAI Privacy Policy</a>
                     . Please read the OpenAI API policy to learn more about how they use your data and in agreeing
                     to this policy you are agreeing to the OpenAI privacy policy.
