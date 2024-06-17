@@ -81,7 +81,7 @@ function Demo() {
       if (storedCredits) {
         setCredits(Number(storedCredits));
       } else {
-        setCredits(0); // Initialize with 0 if no credits are found
+        setCredits(3);
       }
     }
   }, [user]);
