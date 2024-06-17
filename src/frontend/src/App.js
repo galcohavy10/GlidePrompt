@@ -21,7 +21,7 @@ import axios from 'axios';
 
 
 // Initialize Stripe outside of the component to avoid re-creating the Stripe object on every render
-const stripePromise = loadStripe(process.env.NODE_ENV === 'development' ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 console.log('stripe promise:', stripePromise);
 
 function App() {
