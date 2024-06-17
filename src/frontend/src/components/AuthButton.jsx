@@ -29,6 +29,8 @@ const AuthButton = ({ setShowAuth }) => {
         const storedCredits = localStorage.getItem('guestUserCredits');
         if (storedCredits) {
             setGuestCredits(Number(storedCredits));
+        } else {
+            setGuestCredits(3);
         }
 
         return () => unsubscribe(); // Cleanup subscription
