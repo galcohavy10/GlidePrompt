@@ -36,12 +36,12 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
         const lineItems = await stripeInstance.checkout.sessions.listLineItems(session.id);
         const priceId = lineItems.data[0].price.id;
 
-        if (priceId === 'price_1PSez6HShG0VPpj5ebYW3WFm') {
+        if (priceId === 'price_1PSf1DHShG0VPpj5GW80SWVh') {
           await userRef.update({
             paymentPlan: 'pro',
             creditsRemaining: 100,
           });
-        } else if (priceId === 'price_1PSf0UHShG0VPpj5oSRdyKoc') {
+        } else if (priceId === 'price_1PSf20HShG0VPpj5Uqo0FNGm') {
           await userRef.update({
             paymentPlan: 'teams',
             creditsRemaining: 300,
