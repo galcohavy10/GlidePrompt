@@ -147,9 +147,9 @@ function ChatResponsePreview({ title, text, Logo, updateModelSelection, company,
             </button>
           </div>
         </div>
-        <p className="text-gray-700 mt-2">{displayText}</p>
+        <p className="text-gray-700 mt-2 mb-2.5">{displayText}</p>
         {text.length > 100 && (
-          <button onClick={toggleView} className="mt-2 text-blue-500 text-sm">
+          <button onClick={toggleView} className="mt-1 text-blue-500 text-sm mb-4">
             {isExpanded ? "Show Less" : "Show More"}
           </button>
         )}
@@ -158,6 +158,7 @@ function ChatResponsePreview({ title, text, Logo, updateModelSelection, company,
         className="absolute bottom-1 right-1 text-gray-500 text-xs flex items-center"
         onMouseEnter={() => setTooltipVisible(true)}
         onMouseLeave={() => setTooltipVisible(false)}
+        style={{ paddingBottom: '8px' }} // Adds padding at the bottom
       >
         <FaDollarSign className="mr-1" />
         <span>

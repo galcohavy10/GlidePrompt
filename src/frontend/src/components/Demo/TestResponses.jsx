@@ -4,6 +4,9 @@ import ChatResponsePreview from './ChatResponsePreview';
 import { FaCogs, FaCheckSquare, FaRegTrashAlt }from "react-icons/fa";
 import { DemoStatusBar } from './DemoStatusBar';
 
+import { getAuth } from 'firebase/auth';  // Import getAuth if needed
+import { doc, getDoc, updateDoc } from 'firebase/firestore';  // Firestore methods
+import { db } from '../../firebase';  // Import your Firebase config
 
 // Import SVGs as React components
 import { ReactComponent as ChatGPTIcon } from '../../assets/chatgpt-icon.svg';
@@ -19,8 +22,21 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   const [claudeResponse, setClaudeResponse] = useState('Ask me anything!');
   const [replicateResponse, setReplicateResponse] = useState('Ask me anything!');
   const [geminiResponse, setGeminiResponse] = useState('Ask me anything!');
+  const [credits, setCredits] = useState(3);  
+  const auth = getAuth();
+  const user = auth.currentUser;
 
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationText, setNotificationText] = useState('');
 
+  // Function to show notification
+  const triggerNotification = (text) => {
+    setNotificationText(text);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 1500); // Notification will hide after 1.5 seconds
+  };
   
   const [selectedModels, setSelectedModels] = useState({
     OpenAI: 'gpt-3.5-turbo',
@@ -47,6 +63,33 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
     }
   }, [initialPrompt]);
 
+  useEffect(() => {
+    if (user) {
+      // Fetch user credits from Firestore when the component mounts if the user is signed in
+      const userRef = doc(db, "users", user.uid);
+      getDoc(userRef).then(docSnap => {
+        if (docSnap.exists()) {
+          setCredits(docSnap.data().creditsRemaining);
+        }
+      });
+    }
+  }, [user]);
+
+  const deductCredit = () => {
+    let newCredits = credits - 1;
+    setCredits(newCredits);
+
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      updateDoc(userRef, {
+        creditsRemaining: newCredits
+      });
+    }
+
+    // Trigger notification
+    triggerNotification(`You have ${newCredits} credits remaining.`);
+  };
+
   const handleSaveSystemMessage = (e) => {
     e.preventDefault();
     setIsEditingSystemMessage(false);
@@ -70,6 +113,13 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
     };
 
   const handleSubmit = async (e) => {
+    if (credits > 0) {
+      console.log('Deducting credit');
+      deductCredit();
+    } else {
+      triggerNotification('You have no credits remaining. Please upgrade your plan.');
+      return;
+    }
     setClaudeResponse('Loading...');
     setReplicateResponse('Loading...');
     setGeminiResponse('Loading...');
@@ -180,7 +230,12 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-      <DemoStatusBar currentStep={currentStep}/>
+      {showNotification && (
+      <div className={`fixed top-5 right-5 p-4 bg-blue-500 text-white rounded shadow-lg transition-opacity duration-500 ease-in-out ${showNotification ? 'opacity-100' : 'opacity-0'}`}>
+              {notificationText}
+            </div>
+       )}     
+       <DemoStatusBar currentStep={currentStep}/>
 
       {isEditingSystemMessage ? (
         <>
