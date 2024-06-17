@@ -52,9 +52,9 @@ app.post('/createCheckoutSession', async (req, res) => {
     let priceId;
   
     if (plan === 'pro') {
-      priceId = 'price_1PSez6HShG0VPpj5ebYW3WFm'; // Replace with your Pro plan price ID
+      priceId = 'price_1PSf1DHShG0VPpj5GW80SWVh'; // Replace with your Pro plan price ID
     } else if (plan === 'teams') {
-      priceId = 'price_1PSf0UHShG0VPpj5oSRdyKoc'; // Replace with your Teams plan price ID
+      priceId = 'price_1PSf20HShG0VPpj5Uqo0FNGm'; // Replace with your Teams plan price ID
     } else {
       return res.status(400).json({ error: 'Invalid plan.' });
     }
