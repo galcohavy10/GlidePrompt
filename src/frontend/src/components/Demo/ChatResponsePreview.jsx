@@ -121,57 +121,56 @@ function ChatResponsePreview({ title, text, Logo, updateModelSelection, company,
   const displayText = text.length > maxCharLength ? text.slice(0, maxCharLength) + '...' : text;
 
   return (
-    <div className="flex p-4 my-4 mx-auto max-w-lg bg-veryLightGray rounded-lg border border-gray-200 shadow-md animate-fadeIn relative">
-      {Logo && <Logo className="w-10 h-10 flex-shrink-0 mr-2" />}
-      <div className="flex flex-col flex-grow cursor-pointer">
-        <div className="flex items-center justify-between w-full">
-          <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-          <div className="flex items-center">
-            <select
-              className="form-select block p-2 border border-gray-300 rounded-md text-sm mr-2"
-              onChange={e => handleModelChange(e.target.value)}
-              defaultValue={possibleModels[company][0]}
-            >
-              {possibleModels[company].map(model => (
-                <option key={model} value={model}>{model}</option>
-              ))}
-            </select>
-            <button
-              onClick={() => handleRerun(company)}
-              disabled={isDisabled}
-              className={`flex items-center justify-center p-2 h-10 w-10 text-white rounded ${
-                isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              }`}
-            >
-              <FaRedo className="text-md" />
-            </button>
-          </div>
-        </div>
-        <p className="text-gray-700 mt-2 mb-2.5">{displayText}</p>
-        {text.length > 100 && (
-          <button onClick={toggleView} className="mt-1 text-blue-500 text-sm mb-4">
-            {isExpanded ? "Show Less" : "Show More"}
-          </button>
-        )}
+    <div className="flex flex-col p-4 my-4 mx-auto max-w-lg bg-veryLightGray rounded-lg border border-gray-200 shadow-md animate-fadeIn">
+      {Logo && <Logo className="w-10 h-10 flex-shrink-0 mb" />}
+      <h2 className="text-lg font-bold text-gray-900">{title}</h2>
+      <div className="mt-2 mb-4">{displayText}</div>
+      <div className="flex flex-col items-center">
+      {text.length > 100 && (
+        <button onClick={toggleView} className="mb-1 text-blue-500 text-sm">
+          {isExpanded ? "Show Less" : "Show More"}
+        </button>
+      )}
+        <select
+          className="form-select block w-full p-2 mb-2 border border-gray-300 rounded-md text-sm"
+          onChange={e => handleModelChange(e.target.value)}
+          defaultValue={possibleModels[company][0]}
+        >
+          {possibleModels[company].map(model => (
+            <option key={model} value={model}>{model}</option>
+          ))}
+        </select>
+        <button
+          onClick={() => handleRerun(company)}
+          disabled={isDisabled}
+          className={`w-full flex items-center justify-center p-2 text-white rounded ${
+            isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          }`}
+        >
+          <FaRedo className="text-md mr-2" />
+          {"Rerun Model"}
+        </button>
+        
       </div>
       <div 
-        className="absolute bottom-1 right-1 text-gray-500 text-xs flex items-center"
+        className="relative flex justify-end items-center mt-2"
         onMouseEnter={() => setTooltipVisible(true)}
         onMouseLeave={() => setTooltipVisible(false)}
-        style={{ paddingBottom: '8px' }} // Adds padding at the bottom
       >
         <FaDollarSign className="mr-1" />
         <span>
           {`${modelCost[0].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} | ${modelCost[1].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per million tokens`}
         </span>
         {tooltipVisible && (
-          <div className="absolute bottom-full mb-2 p-2 bg-black text-white text-xs rounded">
+          <div className="absolute top-0 right-0 mt-[-100%] mr-2 p-2 bg-black text-white text-xs rounded">
             Pricing for 1M tokens - formatted INPUT | OUTPUT as of June 14th, 2024.
           </div>
         )}
       </div>
     </div>
   );
+  
+  
 }
 
 export default ChatResponsePreview;
