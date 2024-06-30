@@ -1,109 +1,94 @@
 import './firebase';  // This ensures Firebase is initialized first
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { analytics, logEvent } from './firebase'; // Import analytics and logEvent
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import Analytics from './components/Analytics';
-import Cards from './components/Cards';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
-import Navbar from './components/Navbar';
+import Analytics from './components/Analytics';
+import Cards from './components/Cards';
 import Newsletter from './components/Newsletter';
-import Demo from './components/Demo/Demo'; 
-// import Roadmap from './components/Roadmap';
+import Demo from './components/Demo/Demo';
+
 import FAQ from './components/FAQ';
 import About from './components/About';
 import Contact from './components/Contact';
 import PrivacyPolicy from './components/Privacy';
 import TOS from './components/TOS';
-// import SocialProof from './components/SocialProof';
-import axios from 'axios';
+import Dashboard from './components/Dashboard';
 
+const stripePromise = loadStripe(process.env.REACT_APP_NODE_ENV === 'development' 
+  ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST 
+  : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
-// Initialize Stripe outside of the component to avoid re-creating the Stripe object on every render
-const stripePromise = loadStripe(process.env.REACT_APP_NODE_ENV === 'development' ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-console.log('stripe promise:', stripePromise);
+const App = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-function App() {
   useEffect(() => {
-    // Setting the Axios base URL at the top level of the application
-    console.log('node env:', process.env.NODE_ENV);
     const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
     axios.defaults.baseURL = baseURL;
     console.log('axios base URL:', axios.defaults.baseURL);
 
-    // log page view on initial load
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser && location.pathname === '/') {
+        navigate('/dashboard');
+      }
+      // if the user's logged out and they were on dashboard, redirect to home
+      if (!currentUser && location.pathname === '/dashboard') {
+        navigate('/');
+      }
+    });
+
     logEvent(analytics, 'page_view', {
       page_path: window.location.pathname,
     });
-  }, []);
 
-  const [currentPage, setCurrentPage] = useState('home'); //so navbar and footer can control navigation
+    return () => unsubscribe(); // Clean up the subscription on unmount
+  }, [navigate, location.pathname]);
 
-  // Log page views on currentPage change
   useEffect(() => {
     logEvent(analytics, 'page_view', {
-      page_path: currentPage,
+      page_path: location.pathname,
     });
-  }, [currentPage]);
+  }, [location]);
 
   return (
-    <Elements stripe={stripePromise}> {/* This ensures the Stripe Elements provider wraps your components */}
-    <div>
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-  {
-    currentPage === 'home' && (
-      <>
-        <Hero />
-        <Demo />
-        <Analytics />
-        <Newsletter />
-        <Cards />
-        {/* <SocialProof /> */}
-      </>
-    )
-  }
-  {
-    currentPage === 'faq' && (
-      <>
-        <FAQ />
-        <Newsletter />
-      </>
-    )
-  }
-  {
-    currentPage === 'about' && (
-      <>
-        <About />
-        <Newsletter />
-      </>
-    )
-  }
-  {
-    currentPage === 'contact' && (
-      <>
-        <Contact />
-        <Newsletter />
-      </>
-    )
-  }
-  {
-    currentPage === 'privacyPolicy' && (
-      <>
-        <PrivacyPolicy />
-      </>
-    )
-  }
-  {
-    currentPage === 'tos' && (
-      <>
-        <TOS />
-      </>
-    )
-  }
-
-      <Footer currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-    </div>
+    <Elements stripe={stripePromise}>
+      <div>
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<>
+            <Hero />
+            <Demo />
+            <Analytics />
+            <Newsletter />
+            <Cards />
+          </>} />
+          <Route path="/faq" element={<>
+            <FAQ />
+            <Newsletter />
+          </>} />
+          <Route path="/about" element={<>
+            <About />
+            <Newsletter />
+          </>} />
+          <Route path="/contact" element={<>
+            <Contact />
+            <Newsletter />
+          </>} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/tos" element={<TOS />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+        <Footer />
+      </div>
     </Elements>
   );
 }
