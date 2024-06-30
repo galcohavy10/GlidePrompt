@@ -1,30 +1,60 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import ValueProp from '../assets/valueProp.png';
+import Auth from '../components/Auth';
+import Profile from '../components/Profile';
 
 const Analytics = () => {
-  const componentRef = useRef(null);
+  const [showAuth, setShowAuth] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const auth = getAuth();
 
-  const handleReserveClick = () => {
-    if (componentRef.current) {
-      const distanceToBottom = componentRef.current.scrollHeight - componentRef.current.scrollTop;
-      const scrollAmount = distanceToBottom + (distanceToBottom / 2);
-      window.scrollBy({ top: scrollAmount, behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log('currentUser', currentUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className='w-full bg-white py-16 px-4' ref={componentRef}>
+    <div className='w-full bg-white py-16 px-4'>
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
         <img className='w-[500px] mx-auto my-4' src={ValueProp} alt='/' />
         <div className='flex flex-col justify-center'>
           <p className='text-[#00df9a] font-bold '>Save Time</p>
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>Gather Evidence Efficiently. Deploy better Language Models.</h1>
-          <button 
-            className='bg-black text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3'
-            onClick={handleReserveClick}
-          >
-            Sign Up
-          </button>
+          {showAuth || user ? (
+            user ? (
+              <Profile user={user} />
+            ) : (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+                  <Auth onAuthSuccess={() => setShowAuth(false)} />
+                  <button
+                    onClick={() => setShowAuth(false)}
+                    className="mt-4 text-blue-500 hover:text-blue-700 transition duration-300"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )
+          ) : (
+            <button
+              className='bg-black text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3'
+              onClick={() => setShowAuth(true)}
+            >
+              Sign Up
+            </button>
+          )}
         </div>
       </div>
     </div>
