@@ -12,6 +12,7 @@ import stripe from 'stripe';
 
 import { subscribeEmail } from './controllers/subscribeEmail.js';
 import webhookRoutes from './routes/webhookRoutes.js'; // Import the webhook routes
+import rateLimit from 'express-rate-limit'; // Import rate limit for chatWithAI route
 
 
 // Import Firebase initialization
@@ -25,7 +26,19 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors());
+// in development, allow requests from localhost:3000 and 5000 and in production, allow requests from glideprompt.com
+const whitelist = process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://localhost:5000'] : ['https://glideprompt.com', 'https://www.glideprompt.com' ];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 
 // Use the webhook routes before any body parsers
 app.use('/', webhookRoutes);
@@ -43,6 +56,14 @@ app.get('/', (req, res) => {
   // send the index.html file
   res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
+
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
 
 app.post('/createCheckoutSession', async (req, res) => {
   try {
@@ -85,14 +106,13 @@ app.post('/createCheckoutSession', async (req, res) => {
 
 
 
-app.post('/chatWithAI', async (req, res) => {
-  //stringify body and log
-  console.log(JSON.stringify(req.body));
+app.post('/chatWithAI', apiLimiter, async (req, res) => {
 
     const { company, modelName, messages, systemMessage } = req.body;
 
   
     try {
+      console.log ('API limiter woring' + apiLimiter )
       let response;
       if (company === 'Anthropic') {
         response = await chatWithClaude(systemMessage, modelName, messages); 
@@ -124,38 +144,6 @@ app.post('/subscribeEmail', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
-
-
-  //probably wont need this using firebase auth on frontend.
-  //route to sign up
-  // app.post('/signUp', async (req, res) => {
-  //   try {
-  //     console.log(req.body);
-  //     const { email, password } = req.body;
-  //     const user = await admin.auth().createUser({
-  //       email,
-  //       password,
-  //     });
-  //     console.log('user created: ' + user.uid);
-  //     res.json(user);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: 'Internal Server Error' });
-  //   }
-  // });
-
-  // //route to log in with id token
-  // app.post('/logIn', async (req, res) => {
-  //   const { idToken } = req.body;
-  //   try {
-  //     const decodedToken = await admin.auth().verifyIdToken(idToken);
-  //     const user = await admin.auth().getUser(decodedToken.uid);
-  //     res.json(user);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: 'Internal Server Error' });
-  //   }
-  // });
 
 
 
