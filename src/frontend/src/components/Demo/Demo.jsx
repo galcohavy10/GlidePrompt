@@ -7,7 +7,7 @@ import animationData from '../../assets/Animation-loadingBot.json'; // Import yo
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase'; // Ensure this path is correct
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaChevronRight } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
 
@@ -167,12 +167,22 @@ function Demo() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-       <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-10 space-y-6 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] px-4 py-8">
+        <DemoStatusBar currentStep={currentStep} />
+        <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
           <div className="flex flex-col items-center">
-            <Lottie options={defaultOptions} height={250} width={300} />
-            <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
+            <Lottie 
+              options={defaultOptions} 
+              height={200} 
+              width={250} 
+              className="max-w-full"
+            />
+            <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
+              Crafting a system prompt for task:
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 mt-2 text-center break-words max-w-full">
+              {userTask}
+            </p>
           </div>
         </div>
       </div>
@@ -183,7 +193,7 @@ function Demo() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
         <FaLock className="text-6xl text-red-500 mb-4" />
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">You have no remaining credits.</h1>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">You have no remaining credits.</h2>
         <p className="text-lg text-gray-700 mb-8">Scroll up and sign in to continue.</p>
       </div>
     );
@@ -197,40 +207,49 @@ function Demo() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-          <div className="text-center mt-8 mb-10">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
+        <div className="text-center mt-8 mb-10">
           <h2 className="text-xl font-semibold text-gray-800">No more switching tabs—</h2>
-          <h1 className="text-3xl font-bold text-gray-800">Test all the models, in 1 place</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Prompt the models in 1 place</h1>
         </div>
-      <DemoStatusBar currentStep={currentStep} />
-      <form onSubmit={handleTaskSubmit} className="w-full max-w-2xl p-10 space-y-6 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
+      <form 
+        onSubmit={handleTaskSubmit} 
+        className="relative w-full max-w-2xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
+      >
         <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
-        <div>
-          <textarea
-            id="taskInput"
-            value={userTask}
-            onChange={(e) => setUserTask(e.target.value)}
-            className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
-            placeholder="Enter a task..."
-            required
-            rows={Math.min(6, Math.max(1, userTask.split('\n').length))}
-            style={{ resize: 'none', lineHeight: '24px' }}
-            wrap="soft"
-          />
-        </div>
-        <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all" disabled={isLoading}>
+        <textarea
+          value={userTask}
+          onChange={(e) => setUserTask(e.target.value)}
+          className="w-full p-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all"
+          placeholder="Enter a task..."
+          rows={4}
+        />
+        <button 
+          type="submit" 
+          className="w-full py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all"
+        >
           {isLoading ? 'Generating...' : 'Generate Prompt'}
         </button>
-        <div className="flex justify-around w-full mt-4">
-          {taskOptions.map((task, index) => (
-            <button key={index} onClick={() => handleTaskOptionClick(task)} className="bg-white text-gray-800 font-medium py-2 px-4 border border-gray-300 rounded shadow hover:bg-gray-100">
-              {task}
-            </button>
-          ))}
+        <div className="mt-8">
+          <p className="text-sm text-gray-500 mb-2">Sample tasks:</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {taskOptions.map((task, index) => (
+              <button 
+                key={index} 
+                onClick={() => handleTaskOptionClick(task)} 
+                className="flex items-center justify-between text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              >
+                <span className="text-sm text-gray-600 truncate">{task}</span>
+                <FaChevronRight className="flex-shrink-0 w-4 h-4 text-gray-400" />
+              </button>
+            ))}
+          </div>
         </div>
       </form>
     </div>
   );
+
+
 }
 
 export default Demo;

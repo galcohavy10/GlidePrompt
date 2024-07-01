@@ -36,7 +36,7 @@ const Newsletter = () => {
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
             Want to suggest a new feature? Report a bug?
           </h1>
-          <p>My email is gal@glideprompt.com, but be nice!</p>
+          <p>You can also email gal@glideprompt.com, but be nice!</p>
         </div>
         <div className='my-4'>
           <div className='flex flex-col sm:flex-row items-center justify-between w-full'>
@@ -68,7 +68,7 @@ const Newsletter = () => {
             {/* write the error here for a bit */}
             {feedback === 'success' && 'Thank you for subscribing!'}
             {feedback === 'error' && 'Something went wrong. Please try again.'}
-            {feedback === null && 'You can also sign up to hear from me here.'}
+            {feedback === null && ''}
             
           </p>
 

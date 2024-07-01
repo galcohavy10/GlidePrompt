@@ -1,7 +1,7 @@
 import './firebase';  // This ensures Firebase is initialized first
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { analytics, logEvent } from './firebase'; // Import analytics and logEvent
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';

@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { FaRedo } from 'react-icons/fa';
-import { FaDollarSign } from "react-icons/fa";
-
 
 // import ExpandedView from './ExpandedChatResponse';
 
@@ -121,10 +118,10 @@ function ChatResponsePreview({ title, text, Logo, updateModelSelection, company,
   const displayText = text.length > maxCharLength ? text.slice(0, maxCharLength) + '...' : text;
 
   return (
-    <div className="flex flex-col p-4 my-4 mx-auto max-w-lg bg-veryLightGray rounded-lg border border-gray-200 shadow-md animate-fadeIn">
+    <div className="flex flex-col p-4 mb-2 mx-auto max-w-lg bg-veryLightGray rounded-lg border border-gray-200 shadow-md animate-fadeIn">
       {Logo && <Logo className="w-10 h-10 flex-shrink-0 mb" />}
       <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-      <div className="mt-2 mb-4">{displayText}</div>
+      <div className="mt-2 mb-4 text-sm">{displayText}</div>
       <div className="flex flex-col items-center">
       {text.length > 100 && (
         <button onClick={toggleView} className="mb-1 text-blue-500 text-sm">
@@ -147,19 +144,17 @@ function ChatResponsePreview({ title, text, Logo, updateModelSelection, company,
             isDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           }`}
         >
-          <FaRedo className="text-md mr-2" />
-          {"Rerun Model"}
+          {"Rerun Model 🔁"}
         </button>
         
       </div>
       <div 
-        className="relative flex justify-end items-center mt-2"
+        className="relative flex justify-end items-center mt-2 text-xs"
         onMouseEnter={() => setTooltipVisible(true)}
         onMouseLeave={() => setTooltipVisible(false)}
       >
-        <FaDollarSign className="mr-1" />
         <span>
-          {`${modelCost[0].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} | ${modelCost[1].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per million tokens`}
+          {`$${modelCost[0].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} | $${modelCost[1].toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} per million tokens`}
         </span>
         {tooltipVisible && (
           <div className="absolute top-0 right-0 mt-[-100%] mr-2 p-2 bg-black text-white text-xs rounded">
