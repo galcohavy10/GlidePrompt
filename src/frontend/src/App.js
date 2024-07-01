@@ -22,6 +22,9 @@ import PrivacyPolicy from './components/Privacy';
 import TOS from './components/TOS';
 import Dashboard from './components/Dashboard';
 
+//testing chat history
+import TestHistory from './components/TestHistory';
+
 const stripePromise = loadStripe(process.env.REACT_APP_NODE_ENV === 'development' 
   ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST 
   : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -85,7 +88,8 @@ const App = () => {
           </>} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/tos" element={<TOS />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<TestHistory />} /> 
         </Routes>
         <Footer />
       </div>

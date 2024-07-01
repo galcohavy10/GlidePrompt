@@ -11,7 +11,7 @@ import { FaLock, FaChevronRight } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
 
-function Dashboard() {
+function Dashboard({testPreset}) {
   const [userTask, setUserTask] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,17 @@ function Dashboard() {
     return () => unsubscribe();
   }, [auth]);
 
+  //if there's a test preset, we need to render the existing content
   useEffect(() => {
+    if (testPreset) {
+      setUserTask(testPreset.task);
+      setSystemPrompt(testPreset.prompt);
+      setCurrentStep(1);
+    }
+  }, [testPreset]);
+
+  useEffect(() => {
+
     const allTasks = [
       "Create packing lists for trips",
       "Write persuasive essays on various topics",
