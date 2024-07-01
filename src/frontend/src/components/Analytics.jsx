@@ -20,6 +20,10 @@ const Analytics = () => {
     return () => unsubscribe();
   }, [auth]);
 
+  const handleCloseAuth = () => {
+    setShowAuth(false);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -30,23 +34,15 @@ const Analytics = () => {
         <img className='w-[500px] mx-auto my-4' src={ValueProp} alt='/' />
         <div className='flex flex-col justify-center'>
           <p className='text-[#00df9a] font-bold '>Save Time</p>
-          <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>Gather Evidence Efficiently. Deploy better Language Models.</h1>
-          {showAuth || user ? (
-            user ? (
-              <Profile user={user} />
-            ) : (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-                  <Auth onAuthSuccess={() => setShowAuth(false)} />
-                  <button
-                    onClick={() => setShowAuth(false)}
-                    className="mt-4 text-blue-500 hover:text-blue-700 transition duration-300"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            )
+          <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
+            Gather Evidence Efficiently. Deploy better Language Models.
+          </h1>
+          {showAuth && !user ? (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+              <Auth onClose={handleCloseAuth} />
+            </div>
+          ) : user ? (
+            <Profile user={user} />
           ) : (
             <button
               className='bg-black text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3'
