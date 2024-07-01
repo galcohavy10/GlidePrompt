@@ -167,12 +167,22 @@ function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-       <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-10 space-y-6 bg-veryLightGray rounded-lg shadow-xl transform transition-all hover:scale-105">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] px-4 py-8">
+        <DemoStatusBar currentStep={currentStep} />
+        <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
           <div className="flex flex-col items-center">
-            <Lottie options={defaultOptions} height={250} width={300} />
-            <h2 className="text-xl font-italic text-black mt-4 text-center px-2">Crafting a system prompt for task: {userTask}</h2>
+            <Lottie 
+              options={defaultOptions} 
+              height={200} 
+              width={250} 
+              className="max-w-full"
+            />
+            <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
+              Crafting a system prompt for task:
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 mt-2 text-center break-words max-w-full">
+              {userTask}
+            </p>
           </div>
         </div>
       </div>
@@ -183,7 +193,7 @@ function Dashboard() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
         <FaLock className="text-6xl text-red-500 mb-4" />
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">You have no remaining credits.</h1>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">You have no remaining credits.</h2>
         <p className="text-lg text-gray-700 mb-8">Scroll up and sign in to continue.</p>
       </div>
     );

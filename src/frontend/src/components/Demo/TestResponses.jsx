@@ -280,113 +280,108 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   };
   
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a]">
-      {showNotification && (
+return (
+  <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] p-4">
+    {showNotification && (
       <div className={`fixed top-5 right-5 p-4 bg-blue-500 text-white rounded shadow-lg transition-opacity duration-500 ease-in-out ${showNotification ? 'opacity-100' : 'opacity-0'}`}>
-              {notificationText}
-            </div>
-       )}     
-       <DemoStatusBar currentStep={currentStep}/>
+        {notificationText}
+      </div>
+    )}
+    <DemoStatusBar currentStep={currentStep} />
 
-      {isEditingSystemMessage ? (
-        <>
-          {/* Tap to Edit Task Button */}
-          <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out">
-            <div className="flex items-center gap-2">
-              <FaCheckSquare className="text-gray-500" />
-              <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
-            </div>
-            <span className="text-purple-500 text-xs italic ml-2">tap to edit</span>
+    {isEditingSystemMessage ? (
+      <>
+        <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full max-w-2xl">
+          <div className="flex items-center gap-2">
+            <FaCheckSquare className="text-gray-500" />
+            <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
           </div>
+          <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
+        </div>
 
-        <form onSubmit={handleSaveSystemMessage} className="w-full max-w-2xl p-10 space-y-8 bg-white rounded-lg shadow-xl transform transition-all hover:scale-105">
-          { /* Add settings cogs icon next to header */}
-          <h1 className="text-2xl font-bold text-center text-gray-800">Editing System Prompt  <FaCogs className="inline-block text-gray-500" /></h1> 
+        <form onSubmit={handleSaveSystemMessage} className="w-full max-w-2xl p-6 space-y-4 bg-white rounded-lg shadow-xl">
+          <h1 className="text-xl font-bold text-center text-gray-800">Editing System Prompt <FaCogs className="inline-block text-gray-500 ml-2" /></h1>
           <textarea
             value={systemMessage}
             onChange={(e) => setSystemMessage(e.target.value)}
-            className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
+            className="block w-full px-4 py-3 text-base text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all"
             placeholder="Type your system prompt..."
             required
-            rows={7}
-            wrap='soft'
+            rows={10}
           />
-          <button type="submit" className="w-full px-5 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
+          <button type="submit" className="w-full px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
             Save
           </button>
         </form>
-        </>
-      ) : (
-        <>
-
-          <div onClick={handleEditSystemMessage} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out">
-            <div className="flex items-center gap-2">  {/* Added gap for consistent spacing */}
-              <FaCogs className="text-gray-500" />
-              <span><strong>System Prompt:</strong> {systemMessage.slice(0, 50) + (systemMessage.length > 50 ? '...' : '')}</span>
-            </div>
-            <span className="text-purple-500 text-xs italic ml-2">tap to edit</span>  {/* Adjusted margin for better spacing */}
+      </>
+    ) : (
+      <>
+        <div onClick={handleEditSystemMessage} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full max-w-2xl">
+          <div className="flex items-center gap-2">
+            <FaCogs className="text-gray-500" />
+            <span><strong>System Prompt:</strong> {systemMessage.slice(0, 50) + (systemMessage.length > 50 ? '...' : '')}</span>
           </div>
-
-          <div className="w-2/3 flex justify-between">
-
-          <form onSubmit={handleSubmit} className="w-1/2 max-w-2xl p-10 space-y-8 bg-veryLightGray rounded-lg shadow-xl transform transition-all mr-8">
-            <h1 className="text-2xl font-bold text-center text-gray-800">Test Out Your AI!
-            </h1>
-            {/* Subheading saying see which companies perform best for you, no vertical padding small */}
-            <div className="text-lg text-center text-gray-700 flex justify-center items-center gap-4">
-              See which model performs best for your prompt!
-              <ChatGPTIcon style={{ width: '30px', height: '30px' }} />
-              <ClaudeIcon style={{ width: '30px', height: '30px' }} />
-              <ReplicateIcon style={{ width: '30px', height: '30px' }} />
-              <GeminiIcon style={{ width: '30px', height: '30px' }} />
-            </div>
-
-            <textarea
-              id="userInput"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              className="block w-full px-5 py-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all overflow-auto"
-              placeholder="Send your first message..."
-              required
-              rows={7}
-              wrap='soft'
-            />
-          <div className="flex space-x-4">
-          <button type="submit" className="flex-1 px-4 py-3 text-md font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
-          Send
-            </button>
-            <button
-              type="button"
-              onClick={() => inputText && setInputText('')}
-              className={`inline-flex items-center p-3 rounded-xl focus:outline-none focus:ring-4 transition transform active:scale-90 text-white ${
-                inputText ? "bg-gray-400 hover:bg-gray-700 focus:ring-gray-500" : "bg-gray-300 cursor-not-allowed"
-              }`}
-              disabled={!inputText}
-            >
-              <FaRegTrashAlt className="text-xl" />
-              <span className="ml-2">Clear</span>
-            </button>
-
-
-          </div>
-
-          </form>
-          <div className="w-1/2 overflow-y-scroll" style={{ maxHeight: '70vh' }}>
-          <div className="bg-gray-100 p-4 rounded-lg shadow mb-4">
-              <h2 className="text-xl font-semibold text-gray-900">API Responses</h2>
-              <p className="text-sm text-gray-600">Scroll to see all. Select model, see pricing and redo to test again.</p>
-          </div>
-         {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} updateModelSelection={updateModelSelection} company={'OpenAI'} handleRerun={handleRerun}/>}
-          {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} updateModelSelection={updateModelSelection} company={'Anthropic'} handleRerun={handleRerun}/>}
-          {replicateResponse && <ChatResponsePreview title="Open Source" text={replicateResponse} Logo={ReplicateIcon} updateModelSelection={updateModelSelection} company={'Replicate'} handleRerun={handleRerun}/>}
-          {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} updateModelSelection={updateModelSelection} company={'Google'} handleRerun={handleRerun}/>}
+          <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
         </div>
+
+        <div className="w-full max-w-2xl flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-3/4 flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-4 bg-veryLightGray rounded-lg shadow-xl flex flex-col">
+              <h1 className="text-xl font-bold text-center text-gray-800">Test Out Your AI!</h1>
+              <div className="text-sm text-center text-gray-700 flex flex-wrap justify-center items-center gap-2">
+                <span>See which model performs best for your prompt!</span>
+                <div className="flex gap-2">
+                  <ChatGPTIcon style={{ width: '24px', height: '24px' }} />
+                  <ClaudeIcon style={{ width: '24px', height: '24px' }} />
+                  <ReplicateIcon style={{ width: '24px', height: '24px' }} />
+                  <GeminiIcon style={{ width: '24px', height: '24px' }} />
+                </div>
+              </div>
+
+              <textarea
+                id="userInput"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                className="flex-grow block w-full px-4 py-3 text-base text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                placeholder="Send a message..."
+                required
+              />
+              <div className="flex gap-2">
+                <button type="submit" className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
+                  Send
+                </button>
+                <button
+                  type="button"
+                  onClick={() => inputText && setInputText('')}
+                  className={`inline-flex items-center p-2 rounded-lg focus:outline-none focus:ring-2 transition text-white ${
+                    inputText ? "bg-gray-400 hover:bg-gray-700 focus:ring-gray-500" : "bg-gray-300 cursor-not-allowed"
+                  }`}
+                  disabled={!inputText}
+                >
+                  <FaRegTrashAlt className="text-lg" />
+                  <span className="ml-1 text-sm">Clear</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className="w-full md:w-2/4 flex flex-col gap-4">
+            {/* <div className="bg-gray-100 p-3 rounded-lg shadow">
+              <h2 className="text-lg font-semibold text-gray-900">API Responses</h2>
+              <p className="text-xs text-gray-600">Scroll to see all. Select model, see pricing and redo to test again.</p>
+            </div> */}
+            <div className="flex-grow overflow-y-auto" style={{ maxHeight: 'calc(70vh - 4rem)' }}>
+              {openAIResponse && <ChatResponsePreview title="OpenAI" text={openAIResponse} Logo={ChatGPTIcon} updateModelSelection={updateModelSelection} company={'OpenAI'} handleRerun={handleRerun}/>}
+              {claudeResponse && <ChatResponsePreview title="Claude" text={claudeResponse} Logo={ClaudeIcon} updateModelSelection={updateModelSelection} company={'Anthropic'} handleRerun={handleRerun}/>}
+              {replicateResponse && <ChatResponsePreview title="Open Source" text={replicateResponse} Logo={ReplicateIcon} updateModelSelection={updateModelSelection} company={'Replicate'} handleRerun={handleRerun}/>}
+              {geminiResponse && <ChatResponsePreview title="Gemini" text={geminiResponse} Logo={GeminiIcon} updateModelSelection={updateModelSelection} company={'Google'} handleRerun={handleRerun}/>}
+            </div>
+          </div>
         </div>
-        </>
-      )}
-    </div>
-  );
+      </>
+    )}
+  </div>
+);
 }
 
 export default TestResponses;

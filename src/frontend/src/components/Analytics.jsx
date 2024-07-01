@@ -35,7 +35,7 @@ const Analytics = () => {
         <div className='flex flex-col justify-center'>
           <p className='text-[#00df9a] font-bold '>Save Time</p>
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
-            Gather Evidence Efficiently. Deploy better Language Models.
+            Gather Evidence. Deploy the best models.
           </h1>
           {showAuth && !user ? (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
