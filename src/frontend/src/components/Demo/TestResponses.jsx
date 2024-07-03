@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChatResponsePreview from './ChatResponsePreview'; 
-import { FaCogs, FaCheckSquare, FaRegTrashAlt }from "react-icons/fa";
+import { FaCogs, FaCheckSquare, FaRegTrashAlt, FaHistory }from "react-icons/fa";
 import { DemoStatusBar } from './DemoStatusBar';
+import TestHistory from '../TestHistory';
 
 import { getAuth } from 'firebase/auth';  // Import getAuth if needed
 import { doc, collection, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';  // Firestore methods
@@ -25,9 +26,20 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   const [credits, setCredits] = useState(3);  
   const auth = getAuth();
   const user = auth.currentUser;
+  const [showHistory, setShowHistory] = useState(false);
 
   const [showNotification, setShowNotification] = useState(false);
   const [notificationText, setNotificationText] = useState('');
+
+  const toggleHistory = () => {
+    setShowHistory(!showHistory);
+  };
+
+  const handleHistoryClick = (test) => {
+    setSystemMessage(test.systemMessage);
+    setInputText(test.inputText);
+    setShowHistory(false);
+  };
 
   // Function to show notification
   const triggerNotification = (text) => {
@@ -312,6 +324,23 @@ return (
           <button type="submit" className="w-full px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all">
             Save
           </button>
+
+        {/* Add TestHistory toggle button */}
+        <button 
+          onClick={toggleHistory}
+          className="absolute top-2 left-2 px-5 text-purple-600 hover:text-purple-800 focus:outline-none flex flex-col items-center"
+          type="button"
+        >
+          <FaHistory className="w-6 h-6 mb-1" />
+          <span className="text-xs">Test History</span>
+        </button>
+
+        {/* Add TestHistory component */}
+      {showHistory && (
+        <div className="absolute top-16 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+          <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
+        </div>
+      )}
         </form>
       </>
     ) : (
@@ -362,6 +391,22 @@ return (
                   <span className="ml-1 text-sm">Clear</span>
                 </button>
               </div>
+              {/* Add TestHistory toggle button */}
+                <button 
+                  onClick={toggleHistory}
+                  className="absolute top-2 left-2 px-5 text-purple-600 hover:text-purple-800 focus:outline-none flex flex-col items-center"
+                  type="button"
+                >
+                  <FaHistory className="w-6 h-6 mb-1" />
+                  <span className="text-xs">Test History</span>
+                </button>
+
+                {/* Add TestHistory component */}
+              {showHistory && (
+                <div className="absolute top-24 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+                  <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
+                </div>
+              )}
             </form>
           </div>
 

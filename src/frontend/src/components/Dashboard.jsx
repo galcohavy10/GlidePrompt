@@ -7,9 +7,14 @@ import animationData from '../assets/Animation-loadingBot.json'; // Import your 
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Ensure this path is correct
-import { FaLock, FaChevronRight } from "react-icons/fa";
+import { FaLock, FaChevronRight, FaHistory } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
+import TestHistory from './TestHistory';
+import Logo from '../assets/logo.png';
+import Auth from './Auth';
+import AuthButton from './AuthButton';
+
 
 function Dashboard({testPreset}) {
   const [userTask, setUserTask] = useState('');
@@ -18,6 +23,8 @@ function Dashboard({testPreset}) {
   const [taskOptions, setTaskOptions] = useState([]);
   const [credits, setCredits] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   const auth = getAuth();
   const analytics = getAnalytics();
@@ -39,6 +46,13 @@ function Dashboard({testPreset}) {
       setCurrentStep(1);
     }
   }, [testPreset]);
+
+  const handleHistoryClick = (test) => {
+    setUserTask(test.task);
+    setSystemPrompt(test.systemMessage);
+    setCurrentStep(1);
+    setShowHistory(false);
+  };
 
   useEffect(() => {
 
@@ -76,6 +90,10 @@ function Dashboard({testPreset}) {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
+  };
+
+  const toggleHistory = () => {
+    setShowHistory(!showHistory);
   };
 
   useEffect(() => {
@@ -208,54 +226,102 @@ function Dashboard({testPreset}) {
       </div>
     );
   }
-  
-  
-  
 
   if (systemPrompt) {
     return <TestResponses initialPrompt={systemPrompt} goToFirstStep={goToFirstStep} initialTask={userTask}/>;
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
+    <div className="relative flex flex-col items-center justify-center bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
+      <div className="flex w-full items-center justify-between">
+        {/* Responsive logo placement: centered on mobile, left-aligned on larger screens */}
+        <div className="flex-grow flex justify-center lg:justify-start">
+          <a href="/" className="bg-black rounded-full p-2">
+            <img src={Logo} alt="glideprompt Logo" className='w-12 h-12 object-cover cursor-pointer' />
+          </a>
+        </div>
+
+        {/* History button */}
+        <div className="flex-grow-0">
+          <button 
+            onClick={toggleHistory}
+            className="text-blue-500 hover:text-purple-800 focus:outline-none flex flex-col items-center"
+            type="button"
+          >
+            <FaHistory className="w-6 h-6" />
+            <span className="text-xs">Test History</span>
+          </button>
+        </div>
+
+        {/* Auth button on the right side */}
+        <div className="flex-grow flex justify-end">
+          <AuthButton setShowAuth={setShowAuth} />
+        </div>
+      </div>
+
+
+
+
       <form 
         onSubmit={handleTaskSubmit} 
-        className="relative w-full max-w-2xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
-      >
+        className="relative w-full p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
+        >
+
+        {/* DemoStatusBar component centered */}
+        <DemoStatusBar currentStep={currentStep} />
+
+
         <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
         <textarea
           value={userTask}
           onChange={(e) => setUserTask(e.target.value)}
-          className="w-full p-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all"
+          className="w-full p-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all items-center"
           placeholder="Enter a task..."
           rows={4}
         />
+          <div className="mt-8 p-4 bg-slate-200 rounded-lg">
+              <p className="text-sm text-gray-700 mb-2">Sample tasks:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {taskOptions.map((task, index) => (
+                      <button 
+                          key={index} 
+                          onClick={() => handleTaskOptionClick(task)}
+                          className="flex items-center justify-between text-left p-3 bg-slate-100 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                      >
+                          <span className="text-sm text-gray-600 truncate">{task}</span>
+                          <FaChevronRight className="flex-shrink-0 w-4 h-4 text-gray-400" />
+                      </button>
+                  ))}
+              </div>
+          </div>
+
         <button 
           type="submit" 
           className="w-full py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all"
         >
           {isLoading ? 'Generating...' : 'Generate Prompt'}
         </button>
-        <div className="mt-8">
-          <p className="text-sm text-gray-500 mb-2">Sample tasks:</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {taskOptions.map((task, index) => (
-              <button 
-                key={index} 
-                onClick={() => handleTaskOptionClick(task)} 
-                className="flex items-center justify-between text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                <span className="text-sm text-gray-600 truncate">{task}</span>
-                <FaChevronRight className="flex-shrink-0 w-4 h-4 text-gray-400" />
-              </button>
-            ))}
-          </div>
-        </div>
+  
+
       </form>
+
+      {/* Add TestHistory component */}
+      {showHistory && (
+        <div className="absolute top-16 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+          <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
+        </div>
+      )}
+
+    {showAuth && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <Auth onClose={() => setShowAuth(false)} />
+        <button onClick={() => setShowAuth(false)} className="absolute top-2 right-2 text-gray-700">X</button> 
+        </div>
+      </div>
+      )}
     </div>
   );
-
-
 }
 
 export default Dashboard;
