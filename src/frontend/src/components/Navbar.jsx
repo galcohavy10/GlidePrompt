@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo3.png';
 import Auth from './Auth';
 import AuthButton from './AuthButton';
 
@@ -17,7 +17,7 @@ const Navbar = () => {
     <div className="relative">
       <div className='flex justify-between items-center h-24 max-w-[1400px] mx-auto px-4 text-white'>
         <Link to="/">
-          <img src={logo} alt="glideprompt Logo" className='w-auto h-20 object-cover cursor-pointer' />
+          <img src={logo} alt="glideprompt Logo" className='w-auto h-20 object-cover cursor-pointer bg-white rounded-full' />
         </Link>
         <ul className='hidden md:flex'>
           <li className='p-4'>

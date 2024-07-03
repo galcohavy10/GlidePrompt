@@ -299,19 +299,22 @@ return (
         {notificationText}
       </div>
     )}
-    <DemoStatusBar currentStep={currentStep} />
 
     {isEditingSystemMessage ? (
       <>
-        <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full max-w-2xl">
-          <div className="flex items-center gap-2">
-            <FaCheckSquare className="text-gray-500" />
-            <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
-          </div>
-          <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
-        </div>
 
-        <form onSubmit={handleSaveSystemMessage} className="w-full max-w-2xl p-6 space-y-4 bg-white rounded-lg shadow-xl">
+
+        <form onSubmit={handleSaveSystemMessage} className="relative w-full max-w-4xl px-8 py-6 md:px-12 md:py-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10">
+        <DemoStatusBar currentStep={currentStep} />
+
+          
+          <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-slate-200 rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-400 transition-all duration-200 ease-in-out w-full max-w-2xl">
+            <div className="flex items-center gap-2">
+              <FaCheckSquare className="text-gray-500" />
+              <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
+            </div>
+            <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
+          </div>
           <h1 className="text-xl font-bold text-center text-gray-800">Editing System Prompt <FaCogs className="inline-block text-gray-500 ml-2" /></h1>
           <textarea
             value={systemMessage}
@@ -337,7 +340,7 @@ return (
 
         {/* Add TestHistory component */}
       {showHistory && (
-        <div className="absolute top-16 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+        <div className="absolute top-16 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
           <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
         </div>
       )}
@@ -403,7 +406,7 @@ return (
 
                 {/* Add TestHistory component */}
               {showHistory && (
-                <div className="absolute top-24 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+                <div className="absolute top-24 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
                   <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
                 </div>
               )}

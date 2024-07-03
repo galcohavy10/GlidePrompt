@@ -11,7 +11,7 @@ import { FaLock, FaChevronRight, FaHistory } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
 import TestHistory from './TestHistory';
-import Logo from '../assets/logo.png';
+import Logo from '../assets/logo3.png';
 import Auth from './Auth';
 import AuthButton from './AuthButton';
 
@@ -196,14 +196,14 @@ function Dashboard({testPreset}) {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] px-4 py-8">
+        <div className="w-full max-w-2xl p-10 md:p-16 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
         <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
           <div className="flex flex-col items-center">
             <Lottie 
               options={defaultOptions} 
               height={200} 
               width={250} 
-              className="max-w-full"
+              className="max-w-full bg-white p-8"
             />
             <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
               Crafting a system prompt for task:
@@ -233,30 +233,33 @@ function Dashboard({testPreset}) {
 
   return (
     <div className="relative flex flex-col items-center justify-center bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between mb-2">
         {/* Responsive logo placement: centered on mobile, left-aligned on larger screens */}
         <div className="flex-grow flex justify-center lg:justify-start">
-          <a href="/" className="bg-black rounded-full p-2">
-            <img src={Logo} alt="glideprompt Logo" className='w-12 h-12 object-cover cursor-pointer' />
+          <a href="/" className="bg-white rounded-full p-1">
+            <img src={Logo} alt="glideprompt Logo" className='w-14 h-14 object-cover cursor-pointer' />
           </a>
         </div>
 
-        {/* History button */}
+        {/* put show history button on right side right by auth button */}
         <div className="flex-grow-0">
-          <button 
-            onClick={toggleHistory}
-            className="text-blue-500 hover:text-purple-800 focus:outline-none flex flex-col items-center"
-            type="button"
-          >
-            <FaHistory className="w-6 h-6" />
-            <span className="text-xs">Test History</span>
-          </button>
+
         </div>
 
+
         {/* Auth button on the right side */}
-        <div className="flex-grow flex justify-end">
+        <div className="flex-grow flex justify-end space-x-1">
+        <button
+            onClick={toggleHistory}
+            className="text-blue-500 hover:bg-blue-200 p-2 flex items-center space-x-2 flex-col"
+            type="button"
+          >
+            <FaHistory className="w-8 h-8" /> 
+            <span className="text-xs">Test History</span>
+          </button>
           <AuthButton setShowAuth={setShowAuth} />
         </div>
+
       </div>
 
 
@@ -264,7 +267,7 @@ function Dashboard({testPreset}) {
 
       <form 
         onSubmit={handleTaskSubmit} 
-        className="relative w-full p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
+        className="relative w-full max-w-4xl px-8 py-6 md:px-12 md:py-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
         >
 
         {/* DemoStatusBar component centered */}
@@ -307,7 +310,7 @@ function Dashboard({testPreset}) {
 
       {/* Add TestHistory component */}
       {showHistory && (
-        <div className="absolute top-16 left-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+        <div className="absolute top-16 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
           <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
         </div>
       )}
