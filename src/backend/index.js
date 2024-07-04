@@ -111,12 +111,12 @@ app.post('/cancelSubscription', async (req, res) => {
       subscriptionId,
       { cancel_at_period_end: true }
     );
-    if (subscription.status === 'canceled') {
+    if (subscription.cancel_at_period_end) {
       console.log('subscription canceled: ' + JSON.stringify(subscription));
       const userRef = admin.firestore().collection('users').doc(uid);
       await userRef.update({
-        paymentPlan: 'free',
-        subscriptionId: null,
+        paymentPlan: 'freeTrial',
+        stripeSubscriptionId: null,
       });
       res.json({ success: true });
     } else {
