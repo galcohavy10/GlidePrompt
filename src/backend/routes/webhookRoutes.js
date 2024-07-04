@@ -27,8 +27,9 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
     switch (stripeEvent.type) {
       case 'checkout.session.completed':
         const session = stripeEvent.data.object;
+        const subscriptionId = session.subscription; // Subscription ID from Stripe
         // Log metadata to debug
-        console.log('session metadata:', session.metadata);
+        console.log('session metadata:', session.metadata, "---------subscriptionId:", subscriptionId);
 
         // Fulfill the purchase...
         const userRef = admin.firestore().collection('users').doc(session.metadata.firebaseUID);
@@ -40,13 +41,17 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
           await userRef.update({
             paymentPlan: 'pro',
             creditsRemaining: 100,
+            stripeSubscriptionId: subscriptionId,
           });
         } else if (priceId === 'price_1PSf20HShG0VPpj5Uqo0FNGm') {
           await userRef.update({
             paymentPlan: 'teams',
             creditsRemaining: 300,
+            stripeSubscriptionId: subscriptionId,
           });
         }
+
+        console.log('User updated with subscription ID and payment plan' + JSON.stringify(userRef) + 'priceId: ' + priceId + 'subscriptionId: ' + subscriptionId);
 
         break;
       default:
