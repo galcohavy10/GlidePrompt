@@ -59,25 +59,28 @@ const Profile = ({ user }) => {
   // Convert 'freeTrial' to 'Free Trial' for display
   const displayPlan = (plan) => {
     return plan === 'freeTrial' ? 'Free Trial' : plan;
-  };
+  };    
 
   return (
-    <div className="container mx-auto mt-4 p-4">
-      <h1 className="text-lg font-bold mb-4">Welcome, {userData.fullName || "User"}!</h1>
-      <div className="mb-4">
-        <h2 className="text-md font-bold">Your Plan: {displayPlan(userData.paymentPlan)}</h2>
-        <h2 className="text-md font-bold">Credits Remaining: {userData.creditsRemaining}</h2>
-        {userData.paymentPlan !== 'freeTrial' && <button onClick={cancelSubscription} className=" text-red-500 font-bold py-2 px-4 rounded-full">
-          Cancel Subscription
-        </button>}
-        {serverResponse && <p className="text-black">{serverResponse}</p>}
+    <div className="container mx-auto mt-4 p-4 shadow-lg rounded-lg bg-white">
+      <h1 className="text-xl font-semibold mb-6">Welcome, {userData.fullName || "User"}!</h1>
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold">Your Plan: {displayPlan(userData.paymentPlan)}</h2>
+        <h2 className="text-lg font-semibold">Credits Remaining: {userData.creditsRemaining}</h2>
+        {userData.paymentPlan !== 'freeTrial' && (
+          <button onClick={cancelSubscription} className="text-gray-500 hover:text-gray-700 underline font-medium mt-4">
+            Cancel Subscription
+          </button>
+        )}
+        {serverResponse && <p className="text-gray-800 mt-4">{serverResponse}</p>}
       </div>
       {userData.paymentPlan === 'freeTrial' && <CardsMini />} {/* Conditionally display Cards component */}
-      <button onClick={handleLogout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <button onClick={handleLogout} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
         Log Out
       </button>
     </div>
   );
+  
 };
 
 export default Profile;
