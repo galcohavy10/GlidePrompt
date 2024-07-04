@@ -9,7 +9,7 @@ const steps = [
 ];
 
 export const DemoStatusBar = ({ currentStep }) => (
-  <div className="flex items-center justify-center my-4">
+  <div className="flex items-center justify-center my-2">
     {steps.map((step, index) => (
       <React.Fragment key={index}>
         <div className={`flex flex-col items-center ${currentStep === index ? 'text-purple-600' : 'text-gray-400'}`}>

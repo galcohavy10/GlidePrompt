@@ -39,7 +39,7 @@ const Cards = () => {
               <p className='text-center text-4xl font-bold'>$25/user/month</p>
               <p className='text-center text-gray-500'>Invest in Yourself</p>
               <div className='text-center font-medium'>
-                  <p className='py-2 border-b mx-8 mt-8'>100 tests per month</p>
+                  <p className='py-2 border-b mx-8 mt-8'>300 tests per month</p>
                   <p className='py-2 border-b mx-8'>24/7 Access to Founder</p>
                   <p className='py-2 border-b mx-8'>Priority on Feature Requests</p>
               </div>

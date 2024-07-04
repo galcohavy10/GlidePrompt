@@ -22,6 +22,7 @@ import PrivacyPolicy from './components/Privacy';
 import TOS from './components/TOS';
 import Dashboard from './components/Dashboard';
 
+
 const stripePromise = loadStripe(process.env.REACT_APP_NODE_ENV === 'development' 
   ? process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST 
   : process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -62,9 +63,9 @@ const App = () => {
   return (
     <Elements stripe={stripePromise}>
       <div>
-        <Navbar/>
         <Routes>
           <Route path="/" element={<>
+            <Navbar/>
             <Hero />
             <Demo />
             <Analytics />
@@ -72,19 +73,33 @@ const App = () => {
             <Cards />
           </>} />
           <Route path="/faq" element={<>
+            <Navbar/>
             <FAQ />
             <Newsletter />
           </>} />
           <Route path="/about" element={<>
+            <Navbar/>
             <About />
             <Newsletter />
           </>} />
           <Route path="/contact" element={<>
+            <Navbar/>
             <Contact />
             <Newsletter />
           </>} />
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-          <Route path="/tos" element={<TOS />} />
+          <Route path="/privacyPolicy" element={
+            <>
+          <Navbar/>
+          <PrivacyPolicy />
+          </>
+          } />
+          <Route path="/tos" element={
+            <>
+          <Navbar/>
+          <TOS />
+          </>
+          } />
+
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
         <Footer />

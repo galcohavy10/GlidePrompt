@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo3.png';
 
 const Footer = () => {
   return (
     <div className='max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-300'>
       <div>
         <Link to="/">
-          <img src={logo} alt="glideprompt Logo" className='w-auto h-32 object-cover cursor-pointer' />
+          <img src={logo} alt="glideprompt Logo" className='w-auto h-16 object-cover cursor-pointer' />
         </Link>
         <p className='py-4'>Building tools to enable AI builders.</p>
         {/* <div className='flex justify-between md:w-[75%] my-6'>

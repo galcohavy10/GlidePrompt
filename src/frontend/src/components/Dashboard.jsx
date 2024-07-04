@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TestResponses from './Demo/TestResponses';
+import TestResponses from './TestResponses';
 import { DemoStatusBar } from './Demo/DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
 import animationData from '../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Ensure this path is correct
-import { FaLock, FaChevronRight } from "react-icons/fa";
+import { FaLock, FaChevronRight, FaHistory } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
+import TestHistory from './TestHistory';
+import Logo from '../assets/logo3.png';
+import Auth from './Auth';
+import AuthButton from './AuthButton';
 
-function Dashboard() {
+
+function Dashboard({testPreset}) {
   const [userTask, setUserTask] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [taskOptions, setTaskOptions] = useState([]);
   const [credits, setCredits] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   const auth = getAuth();
   const analytics = getAnalytics();
@@ -31,7 +38,24 @@ function Dashboard() {
     return () => unsubscribe();
   }, [auth]);
 
+  //if there's a test preset, we need to render the existing content
   useEffect(() => {
+    if (testPreset) {
+      setUserTask(testPreset.task);
+      setSystemPrompt(testPreset.prompt);
+      setCurrentStep(1);
+    }
+  }, [testPreset]);
+
+  const handleHistoryClick = (test) => {
+    setUserTask(test.task);
+    setSystemPrompt(test.systemMessage);
+    setCurrentStep(1);
+    setShowHistory(false);
+  };
+
+  useEffect(() => {
+
     const allTasks = [
       "Create packing lists for trips",
       "Write persuasive essays on various topics",
@@ -66,6 +90,10 @@ function Dashboard() {
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
+  };
+
+  const toggleHistory = () => {
+    setShowHistory(!showHistory);
   };
 
   useEffect(() => {
@@ -168,16 +196,16 @@ function Dashboard() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] px-4 py-8">
+        <div className="w-full max-w-2xl p-10 md:p-16 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
         <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
           <div className="flex flex-col items-center">
             <Lottie 
               options={defaultOptions} 
               height={200} 
               width={250} 
-              className="max-w-full"
+              className="max-w-full bg-white p-8"
             />
-            <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
+            <h2 className="text-lg md:text-xl font-bold text-gray-800 mt-4 text-center">
               Crafting a system prompt for task:
             </h2>
             <p className="text-sm md:text-base text-gray-600 mt-2 text-center break-words max-w-full">
@@ -198,54 +226,100 @@ function Dashboard() {
       </div>
     );
   }
-  
-  
-  
 
   if (systemPrompt) {
     return <TestResponses initialPrompt={systemPrompt} goToFirstStep={goToFirstStep} initialTask={userTask}/>;
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
+    <div className="relative flex flex-col items-center justify-center bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
+      <div className="flex w-full items-center justify-between mb-2">
+        {/* Responsive logo placement: centered on mobile, left-aligned on larger screens */}
+        <div className="flex-grow flex justify-center lg:justify-start">
+          <a href="/" className="bg-white rounded-full p-1">
+            <img src={Logo} alt="glideprompt Logo" className='w-14 h-14 object-cover cursor-pointer' />
+          </a>
+        </div>
+
+
+        {/* Auth button on the right side */}
+        <div className="flex-grow flex justify-end space-x-1">
+        <button
+            onClick={toggleHistory}
+            className="text-blue-500 hover:bg-blue-200 p-2 flex items-center space-x-2 flex-col"
+            type="button"
+          >
+            <FaHistory className="w-8 h-8" /> 
+            <span className="text-xs">Test History</span>
+          </button>
+          <AuthButton setShowAuth={setShowAuth} />
+        </div>
+
+      </div>
+
+
+
+
       <form 
         onSubmit={handleTaskSubmit} 
-        className="relative w-full max-w-2xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
-      >
-        <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
+        className="relative w-full max-w-4xl px-8 py-6 md:px-12 md:py-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
+        >
+
+        {/* DemoStatusBar component centered */}
+        <DemoStatusBar currentStep={currentStep} />
+
+
+        <h1 className="text-2xl font-bold text-center text-gray-800">Write a task, get a prompt.</h1>
         <textarea
           value={userTask}
           onChange={(e) => setUserTask(e.target.value)}
-          className="w-full p-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all"
+          className="w-full p-4 text-lg text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-300 focus:border-transparent transition-all items-center"
           placeholder="Enter a task..."
           rows={4}
         />
+          <div className="mt-8 p-4 bg-slate-200 rounded-lg">
+              <p className="text-sm text-gray-700 mb-2">Sample tasks:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {taskOptions.map((task, index) => (
+                      <button 
+                          key={index} 
+                          onClick={() => handleTaskOptionClick(task)}
+                          className="flex items-center justify-between text-left p-3 bg-slate-100 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                      >
+                          <span className="text-sm text-gray-600 truncate">{task}</span>
+                          <FaChevronRight className="flex-shrink-0 w-4 h-4 text-gray-400" />
+                      </button>
+                  ))}
+              </div>
+          </div>
+
         <button 
           type="submit" 
           className="w-full py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-700 rounded-lg hover:from-purple-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-lg transition-all"
         >
           {isLoading ? 'Generating...' : 'Generate Prompt'}
         </button>
-        <div className="mt-8">
-          <p className="text-sm text-gray-500 mb-2">Sample tasks:</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {taskOptions.map((task, index) => (
-              <button 
-                key={index} 
-                onClick={() => handleTaskOptionClick(task)} 
-                className="flex items-center justify-between text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                <span className="text-sm text-gray-600 truncate">{task}</span>
-                <FaChevronRight className="flex-shrink-0 w-4 h-4 text-gray-400" />
-              </button>
-            ))}
-          </div>
-        </div>
+  
+
       </form>
+
+      {/* Add TestHistory component */}
+      {showHistory && (
+        <div className="absolute top-16 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+          <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
+        </div>
+      )}
+
+    {showAuth && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <Auth onClose={() => setShowAuth(false)} />
+        <button onClick={() => setShowAuth(false)} className="absolute top-2 right-2 text-gray-700">X</button> 
+        </div>
+      </div>
+      )}
     </div>
   );
-
-
 }
 
 export default Dashboard;
