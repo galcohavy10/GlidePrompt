@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TestResponses from './Demo/TestResponses';
+import TestResponses from './TestResponses';
 import { DemoStatusBar } from './Demo/DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
 import animationData from '../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
@@ -205,7 +205,7 @@ function Dashboard({testPreset}) {
               width={250} 
               className="max-w-full bg-white p-8"
             />
-            <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
+            <h2 className="text-lg md:text-xl font-bold text-gray-800 mt-4 text-center">
               Crafting a system prompt for task:
             </h2>
             <p className="text-sm md:text-base text-gray-600 mt-2 text-center break-words max-w-full">

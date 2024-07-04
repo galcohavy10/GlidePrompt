@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TestResponses from './TestResponses';
+import TestResponses from './TestResponsesDemo';
 import { DemoStatusBar } from './DemoStatusBar';  // Import the new component
 import Lottie from 'react-lottie';
 import animationData from '../../assets/Animation-loadingBot.json'; // Import your Lottie JSON file
@@ -168,16 +168,16 @@ function Demo() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] px-4 py-8">
+        <div className="w-full max-w-2xl p-5 md:p-16 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
         <DemoStatusBar currentStep={currentStep} />
-        <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 md:space-y-6 bg-white rounded-lg shadow-xl transition-all">
           <div className="flex flex-col items-center">
             <Lottie 
               options={defaultOptions} 
               height={200} 
               width={250} 
-              className="max-w-full"
+              className="max-w-full bg-white p-8"
             />
-            <h2 className="text-lg md:text-xl font-italic text-gray-800 mt-4 text-center">
+            <h2 className="text-lg md:text-xl font-bold text-gray-800 mt-4 text-center">
               Crafting a system prompt for task:
             </h2>
             <p className="text-sm md:text-base text-gray-600 mt-2 text-center break-words max-w-full">
