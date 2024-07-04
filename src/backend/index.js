@@ -116,7 +116,7 @@ app.post('/cancelSubscription', async (req, res) => {
       const userRef = admin.firestore().collection('users').doc(uid);
       await userRef.update({
         paymentPlan: 'free',
-        subscriptionId: '',
+        subscriptionId: null,
       });
       res.json({ success: true });
     } else {
