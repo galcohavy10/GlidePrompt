@@ -73,9 +73,9 @@ app.post('/createCheckoutSession', async (req, res) => {
     let priceId;
   
     if (plan === 'pro') {
-      priceId = 'price_1PSf1DHShG0VPpj5GW80SWVh'; // Replace with your Pro plan price ID
+      priceId = 'price_1PSf1DHShG0VPpj5GW80SWVh'; 
     } else if (plan === 'teams') {
-      priceId = 'price_1PSf20HShG0VPpj5Uqo0FNGm'; // Replace with your Teams plan price ID
+      priceId = 'price_1PSf20HShG0VPpj5Uqo0FNGm'; 
     } else {
       return res.status(400).json({ error: 'Invalid plan.' });
     }
@@ -87,8 +87,8 @@ app.post('/createCheckoutSession', async (req, res) => {
         quantity: 1, 
       }],
       mode: 'subscription',
-      success_url: 'https://www.glideprompt.com', // Replace with your success URL
-      cancel_url: 'https://www.glideprompt.com', // Replace with your cancel URL
+      success_url: 'https://www.glideprompt.com', 
+      cancel_url: 'https://www.glideprompt.com', 
       metadata: {
         firebaseUID: uid,
       },
@@ -104,6 +104,30 @@ app.post('/createCheckoutSession', async (req, res) => {
 
 });
 
+app.post('/cancelSubscription', async (req, res) => {
+  try {
+    const { subscriptionId, uid } = req.body;
+    const subscription = await stripeInstance.subscriptions.update (
+      subscriptionId,
+      { cancel_at_period_end: true }
+    );
+    if (subscription.status === 'canceled') {
+      console.log('subscription canceled: ' + JSON.stringify(subscription));
+      const userRef = admin.firestore().collection('users').doc(uid);
+      await userRef.update({
+        paymentPlan: 'free',
+        subscriptionId: '',
+      });
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ error: 'Failed to cancel subscription' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+  
 
 
 app.post('/chatWithAI', apiLimiter, async (req, res) => {
