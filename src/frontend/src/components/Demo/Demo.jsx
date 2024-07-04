@@ -210,13 +210,14 @@ function Demo() {
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] z-0 px-4 py-8">
         <div className="text-center mt-8 mb-10">
           <h2 className="text-xl font-semibold text-gray-800">No more switching tabs—</h2>
-          <h1 className="text-3xl font-bold text-gray-800">Prompt the models in 1 place</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Test popular language models in 1 place</h1>
         </div>
       <form 
         onSubmit={handleTaskSubmit} 
-        className="relative w-full max-w-2xl p-6 md:p-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10"
+        className="relative w-full max-w-2xl p-6 md:p-10 space-y-4 bg-white rounded-lg shadow-xl transition-all z-10"
       >
-        <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800">Write a task, get a prompt.</h1>
+        <p className="text-sm text-gray-600 text-center">Enter a task and get a system-level prompt for language models.</p>
         <textarea
           value={userTask}
           onChange={(e) => setUserTask(e.target.value)}

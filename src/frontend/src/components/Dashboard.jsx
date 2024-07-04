@@ -241,11 +241,6 @@ function Dashboard({testPreset}) {
           </a>
         </div>
 
-        {/* put show history button on right side right by auth button */}
-        <div className="flex-grow-0">
-
-        </div>
-
 
         {/* Auth button on the right side */}
         <div className="flex-grow flex justify-end space-x-1">
@@ -274,7 +269,7 @@ function Dashboard({testPreset}) {
         <DemoStatusBar currentStep={currentStep} />
 
 
-        <h1 className="text-2xl font-bold text-center text-gray-800">What do you want your AI to do?</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800">Write a task, get a prompt.</h1>
         <textarea
           value={userTask}
           onChange={(e) => setUserTask(e.target.value)}

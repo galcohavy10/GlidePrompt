@@ -4,6 +4,9 @@ import ChatResponsePreview from './ChatResponsePreview';
 import { FaCogs, FaCheckSquare, FaRegTrashAlt, FaHistory }from "react-icons/fa";
 import { DemoStatusBar } from './DemoStatusBar';
 import TestHistory from '../TestHistory';
+import AuthButton from '../AuthButton';
+import Auth from '../Auth';
+import Logo from '../../assets/logo3.png';
 
 import { getAuth } from 'firebase/auth';  // Import getAuth if needed
 import { doc, collection, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';  // Firestore methods
@@ -30,6 +33,7 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
 
   const [showNotification, setShowNotification] = useState(false);
   const [notificationText, setNotificationText] = useState('');
+  const [showAuth, setShowAuth] = useState(false);
 
   const toggleHistory = () => {
     setShowHistory(!showHistory);
@@ -158,6 +162,10 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
     // Correct way to generate a new document ID
     console.log('Generating new document ID for prompt test...');
     const promptTestRef = doc(collection(db, "PromptTests"));
+    //if user's logged in tell him the test is saved
+    if (user) {
+      triggerNotification('Prompt test saved successfully.');
+    }
 
     const promptTest = {
       inputText: inputText,
@@ -293,28 +301,52 @@ function TestResponses({ initialPrompt, goToFirstStep, initialTask }) {
   
 
 return (
-  <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] p-4">
+  <div className="flex flex-col items-center min-h-screen bg-gradient-to-r from-[#79fcd3] to-[#00df9a] p-4">
     {showNotification && (
       <div className={`fixed top-5 right-5 p-4 bg-blue-500 text-white rounded shadow-lg transition-opacity duration-500 ease-in-out ${showNotification ? 'opacity-100' : 'opacity-0'}`}>
         {notificationText}
       </div>
     )}
+            <div className="flex w-full items-center justify-between m-5">
+                {/* Responsive logo placement: centered on mobile, left-aligned on larger screens */}
+                <div className="flex-grow flex justify-center lg:justify-start">
+                  <a href="/" className="bg-white rounded-full p-1">
+                    <img src={Logo} alt="glideprompt Logo" className='w-14 h-14 object-cover cursor-pointer' />
+                  </a>
+                </div>
+
+
+                {/* Auth button on the right side */}
+                <div className="flex-grow flex justify-end space-x-1">
+                <button
+                    onClick={toggleHistory}
+                    className="text-blue-500 hover:bg-blue-200 p-2 flex items-center space-x-2 flex-col"
+                    type="button"
+                  >
+                    <FaHistory className="w-8 h-8" /> 
+                    <span className="text-xs">Test History</span>
+                  </button>
+                  <AuthButton setShowAuth={setShowAuth} />
+                </div>
+
+              </div>
 
     {isEditingSystemMessage ? (
       <>
+
 
 
         <form onSubmit={handleSaveSystemMessage} className="relative w-full max-w-4xl px-8 py-6 md:px-12 md:py-10 space-y-6 bg-white rounded-lg shadow-xl transition-all z-10">
         <DemoStatusBar currentStep={currentStep} />
 
           
-          <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-slate-200 rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-400 transition-all duration-200 ease-in-out w-full max-w-2xl">
-            <div className="flex items-center gap-2">
-              <FaCheckSquare className="text-gray-500" />
-              <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
-            </div>
-            <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
+        <div onClick={handleEditUserTask} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-slate-200 rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-400 transition-all duration-200 ease-in-out mx-auto max-w-2xl">
+          <div className="flex items-center gap-2">
+            <FaCheckSquare className="text-gray-500" />
+            <span><strong>Task:</strong> {initialTask.slice(0, 50) + (initialTask.length > 50 ? '...' : '')}</span>
           </div>
+          <span className="text-purple-500 text-xs italic ml-2 whitespace-nowrap">tap to edit</span>
+        </div>
           <h1 className="text-xl font-bold text-center text-gray-800">Editing System Prompt <FaCogs className="inline-block text-gray-500 ml-2" /></h1>
           <textarea
             value={systemMessage}
@@ -328,27 +360,14 @@ return (
             Save
           </button>
 
-        {/* Add TestHistory toggle button */}
-        <button 
-          onClick={toggleHistory}
-          className="absolute top-2 left-2 px-5 text-purple-600 hover:text-purple-800 focus:outline-none flex flex-col items-center"
-          type="button"
-        >
-          <FaHistory className="w-6 h-6 mb-1" />
-          <span className="text-xs">Test History</span>
-        </button>
 
-        {/* Add TestHistory component */}
-      {showHistory && (
-        <div className="absolute top-16 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
-          <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
-        </div>
-      )}
         </form>
       </>
     ) : (
       <>
-        <div onClick={handleEditSystemMessage} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full max-w-2xl">
+      {/** Show the system message and allow the user to see tests in one div */}
+      <div className="w-full max-w-2xl p-6 md:p-10 space-y-4 bg-white rounded-lg shadow-xl flex flex-col">
+      <div onClick={handleEditSystemMessage} className="cursor-pointer flex items-center justify-between p-3 text-sm text-gray-800 bg-white rounded-full border border-gray-300 shadow-sm mb-4 hover:bg-gray-100 transition-all duration-200 ease-in-out w-full max-w-2xl">
           <div className="flex items-center gap-2">
             <FaCogs className="text-gray-500" />
             <span><strong>System Prompt:</strong> {systemMessage.slice(0, 50) + (systemMessage.length > 50 ? '...' : '')}</span>
@@ -358,10 +377,10 @@ return (
 
         <div className="w-full max-w-2xl flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-3/4 flex flex-col gap-4">
-            <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-4 bg-veryLightGray rounded-lg shadow-xl flex flex-col">
-              <h1 className="text-xl font-bold text-center text-gray-800">Test Out Your AI!</h1>
+            <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-4 bg-slate-200 rounded-lg shadow-xl flex flex-col">
+              <h1 className="text-xl font-bold text-center text-gray-800">Write a message to start testing</h1>
               <div className="text-sm text-center text-gray-700 flex flex-wrap justify-center items-center gap-2">
-                <span>See which model performs best for your prompt!</span>
+                <span>See which model performs best.</span>
                 <div className="flex gap-2">
                   <ChatGPTIcon style={{ width: '24px', height: '24px' }} />
                   <ClaudeIcon style={{ width: '24px', height: '24px' }} />
@@ -374,7 +393,7 @@ return (
                 id="userInput"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="flex-grow block w-full px-4 py-3 text-base text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                className="flex-grow block w-full px-4 py-3 text-base text-gray-700 bg-white rounded-lg border border-gray-300 focus:ring-purple-500 focus:border-purple-500 transition-all"
                 placeholder="Send a message..."
                 required
               />
@@ -394,22 +413,6 @@ return (
                   <span className="ml-1 text-sm">Clear</span>
                 </button>
               </div>
-              {/* Add TestHistory toggle button */}
-                <button 
-                  onClick={toggleHistory}
-                  className="absolute top-2 left-2 px-5 text-purple-600 hover:text-purple-800 focus:outline-none flex flex-col items-center"
-                  type="button"
-                >
-                  <FaHistory className="w-6 h-6 mb-1" />
-                  <span className="text-xs">Test History</span>
-                </button>
-
-                {/* Add TestHistory component */}
-              {showHistory && (
-                <div className="absolute top-24 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
-                  <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
-                </div>
-              )}
             </form>
           </div>
 
@@ -426,8 +429,26 @@ return (
             </div>
           </div>
         </div>
+      </div>
+
+
       </>
     )}
+          {/* Add TestHistory component */}
+          {showHistory && (
+        <div className="absolute top-16 right-4 w-64 bg-white p-4 rounded-lg shadow-xl z-20 max-h-screen overflow-y-auto">
+          <TestHistory onHistoryClick={handleHistoryClick} toggleShowHistory={toggleHistory} />
+        </div>
+      )}
+
+      {showAuth && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+            <Auth onClose={() => setShowAuth(false)} />
+            <button onClick={() => setShowAuth(false)} className="absolute top-2 right-2 text-gray-700">X</button>
+          </div>
+        </div>
+      )}
   </div>
 );
 }
