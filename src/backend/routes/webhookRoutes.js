@@ -51,6 +51,8 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
           });
         }
 
+        console.log('User updated with subscription ID and payment plan' + JSON.stringify(userRef) + 'priceId: ' + priceId + 'subscriptionId: ' + subscriptionId);
+
         break;
       default:
         console.log(`Unhandled event type ${stripeEvent.type}`);
