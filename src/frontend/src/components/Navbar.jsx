@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../assets/logo3.png';
+import logo from '../assets/logo2.png';
 import Auth from './Auth';
 import AuthButton from './AuthButton';
 

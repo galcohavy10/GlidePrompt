@@ -11,7 +11,7 @@ import { FaLock, FaChevronRight, FaHistory } from "react-icons/fa";
 //get firebase analytics
 import { getAnalytics, logEvent } from "firebase/analytics";
 import TestHistory from './TestHistory';
-import Logo from '../assets/logo3.png';
+import Logo from '../assets/logo2.png';
 import Auth from './Auth';
 import AuthButton from './AuthButton';
 
