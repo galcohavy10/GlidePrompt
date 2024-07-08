@@ -6,7 +6,7 @@ import { DemoStatusBar } from './Demo/DemoStatusBar';
 import TestHistory from './TestHistory';
 import AuthButton from './AuthButton';
 import Auth from './Auth';
-import Logo from '../assets/logo3.png';
+import Logo from '../assets/logo2.png';
 
 import { getAuth } from 'firebase/auth';  // Import getAuth if needed
 import { doc, collection, getDoc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore';  // Firestore methods
