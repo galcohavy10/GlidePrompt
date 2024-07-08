@@ -33,7 +33,7 @@ const Login = ({ onAuthChange }) => {
   return (
     <div className="container mx-auto mt-4 p-4">
       <h1 className="text-2xl font-bold mb-6">Login</h1>
-      <form onSubmit={handleLogin} className="space-y-6">
+      <form onSubmit={handleLogin} className="space-y-6 bg-slate-200 p-5 rounded-md">
         <input
           type="email"
           value={email}
