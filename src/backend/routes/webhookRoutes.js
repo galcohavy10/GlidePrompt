@@ -37,7 +37,7 @@ router.post('/stripeWebhook', express.raw({ type: 'application/json' }), async (
         const lineItems = await stripeInstance.checkout.sessions.listLineItems(session.id);
         const priceId = lineItems.data[0].price.id;
 
-        if (priceId === 'price_1PSf1DHShG0VPpj5GW80SWVh') {
+        if (priceId === 'price_1Pb1thHShG0VPpj5ZmuQGWXh') {
           await userRef.update({
             paymentPlan: 'pro',
             creditsRemaining: 100,

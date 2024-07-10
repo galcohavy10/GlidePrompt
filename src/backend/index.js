@@ -73,7 +73,7 @@ app.post('/createCheckoutSession', async (req, res) => {
     let priceId;
   
     if (plan === 'pro') {
-      priceId = 'price_1PSf1DHShG0VPpj5GW80SWVh'; 
+      priceId = 'price_1Pb1thHShG0VPpj5ZmuQGWXh'; 
     } else if (plan === 'teams') {
       priceId = 'price_1PSf20HShG0VPpj5Uqo0FNGm'; 
     } else {
