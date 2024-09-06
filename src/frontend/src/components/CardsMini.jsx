@@ -29,7 +29,7 @@ const CardsMini = () => {
           <div className='shadow bg-gray-100 flex flex-col p-3 rounded hover:scale-105 duration-300' style={{ width: "200px" }}>
               <img className='w-12 mx-auto' src={Triple} alt="Teams Plan" />
               <h2 className='text-lg font-bold text-center my-2'>Teams</h2>
-              <p className='text-center text-xl font-bold'>$25/user/mo</p>
+              <p className='text-center text-xl font-bold'>Contact Sales</p>
               <ul className='text-center text-sm my-2'>
                 <li>300 credits/mo</li>
                 <li>24/7 Support</li>
