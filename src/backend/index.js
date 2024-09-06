@@ -27,7 +27,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // in development, allow requests from localhost:3000 and 5000 and in production, allow requests from glideprompt.com
-const whitelist = process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://localhost:5000'] : ['https://glideprompt.com', 'https://www.glideprompt.com' ];
+const whitelist = process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://localhost:5000'] : ['https://glideprompt.com', 'https://www.glideprompt.com', 'http://glideprompt.com', 'http://www.glideprompt.com' ];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -136,7 +136,7 @@ app.post('/chatWithAI', apiLimiter, async (req, res) => {
 
   
     try {
-      console.log ('API limiter woring' + apiLimiter )
+      console.log ('API limiter worikng' + apiLimiter )
       let response;
       if (company === 'Anthropic') {
         response = await chatWithClaude(systemMessage, modelName, messages); 
